@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from keep_alive import keep_alive
 from screenshot import screenshot
 
 load_dotenv()
@@ -184,11 +183,5 @@ async def test(message, arg):
   await message.send(arg)
 
 
-keep_alive()
+bot.run(TOKEN)
 
-try:
-  bot.run(TOKEN)
-except discord.errors.HTTPException:
-  print("\n\n\nBLOCKED BY RATE LIMITS\nRESTERTING NOW\n\n\n")
-  os.system("kill 1")
-  os.system("python restarter.py")
