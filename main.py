@@ -189,6 +189,11 @@ async def build(message, champion, role):
   file = discord.File('screenshot.png', filename='champion.png') 
   await message.channel.send(file=file)
 
+@bot.command()
+async def probuild(message, champion, role):
+  screenshot(champion, role, True)
+  file = discord.File('\\Users\\desktop\\OneDrive - UC San Diego\\Desktop\\Discord\\screenshot.png', filename='champion.png') 
+  await message.channel.send(file=file)
 
 @bot.command()
 async def test(message, arg):
