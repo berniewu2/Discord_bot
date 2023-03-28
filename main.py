@@ -176,7 +176,7 @@ async def build(message, champion, role):
   await message.channel.send('処理中')
   if role=='jg':
     role = 'jungle'
-  elif role=='bot' | role=='ad':
+  elif (role=='bot') | (role=='ad'):
     role = 'adc'
   elif role == 'sup':
     role = 'support'
@@ -195,7 +195,7 @@ async def probuild(message, champion, role):
     role = 'jungle'
   elif role=='bot':
     role = 'adc'
-  elif role=='sup' or role == 'support':
+  elif (role=='sup') or (role == 'support'):
     role = 'supp'
   elif role =='ad':
     role =='adc'
