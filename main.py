@@ -174,7 +174,7 @@ async def delete(message, arg):
 @bot.command()
 async def build(message, champion, role):
   screenshot(champion, role)
-  file = discord.File('\\home\\ubuntu\\Discord_bot\\screenshot.png', filename='champion.png') 
+  file = discord.File('screenshot.png', filename='champion.png') 
   await message.channel.send(file=file)
 
 
