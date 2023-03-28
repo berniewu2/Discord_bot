@@ -203,7 +203,7 @@ async def probuild(message, champion, role):
     await message.channel.send('wrong position')
     return
   screenshot(champion, role, True)
-  file = discord.File('\\Users\\desktop\\OneDrive - UC San Diego\\Desktop\\Discord\\screenshot.png', filename='champion.png') 
+  file = discord.File('screenshot.png', filename='champion.png') 
   await message.channel.send(file=file)
 
 @bot.command()
