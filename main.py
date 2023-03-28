@@ -173,6 +173,18 @@ async def delete(message, arg):
 
 @bot.command()
 async def build(message, champion, role):
+  await message.channel.send('処理中')
+  if role=='jg':
+    role = 'jungle'
+  elif role=='bot':
+    role = 'adc'
+  elif role == 'sup':
+    role = 'support'
+    
+  roles = ['top', 'jungle', 'mid', 'adc', 'support']
+  if role not in roles:
+    await message.channel.send('wrong position')
+    return
   screenshot(champion, role)
   file = discord.File('screenshot.png', filename='champion.png') 
   await message.channel.send(file=file)
