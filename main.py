@@ -2,6 +2,7 @@ import os
 import discord
 from discord.ext import commands
 from keep_alive import keep_alive
+from screenshot import screenshot
 
 TOKEN = os.environ["Oliver_bot_token"]
 
@@ -26,6 +27,8 @@ async def on_command_error(message, error):
     await message.channel.send('コマンド がありません')
   elif isinstance(error, commands.CheckFailure):
     await message.channel.send("権限がありません")
+  elif isinstance(error,commands.MissingRequiredArgument):
+    await message.channel.send('必須の引数がありません')
   else:
     await message.channel.send(f'Error: {error}')
   pass
@@ -166,6 +169,12 @@ async def delete(message, arg):
   msg = await message.channel.fetch_message(arg)
   await msg.delete()
   await message.message.delete()
+
+@bot.command()
+async def build(message, champion, role):
+  screenshot(champion, role)
+  file = discord.File('\\Users\\desktop\\OneDrive - UC San Diego\\Desktop\\Discord\\screenshot.png', filename='champion.png') 
+  await message.channel.send(file=file)
 
 
 @bot.command()
