@@ -1,10 +1,12 @@
 import os
+from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 from keep_alive import keep_alive
 from screenshot import screenshot
 
-TOKEN = os.environ["Oliver_bot_token"]
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
