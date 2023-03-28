@@ -191,6 +191,17 @@ async def build(message, champion, role):
 
 @bot.command()
 async def probuild(message, champion, role):
+  if role=='jg':
+    role = 'jungle'
+  elif role=='bot':
+    role = 'adc'
+  elif role=='sup' or role == 'support':
+    role = 'supp'
+  
+  roles = ['top', 'jungle', 'mid', 'adc', 'supp']
+  if role not in roles:
+    await message.channel.send('wrong position')
+    return
   screenshot(champion, role, True)
   file = discord.File('\\Users\\desktop\\OneDrive - UC San Diego\\Desktop\\Discord\\screenshot.png', filename='champion.png') 
   await message.channel.send(file=file)
