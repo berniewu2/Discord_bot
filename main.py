@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from screenshot import screenshot
+from screenshot import screenshot, screenshot_pro
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -191,6 +191,13 @@ async def build(message, champion, role):
 
 @bot.command()
 async def probuild(message, champion, role):
+  ben = discord.utils.find(lambda r: r.name == 'tits licker',
+                            message.guild.roles)
+  if ben in message.author.roles:
+    lpl = True
+  else:
+    lpl = False
+    
   if role=='jg':
     role = 'jungle'
   elif role=='bot':
@@ -204,7 +211,7 @@ async def probuild(message, champion, role):
   if role not in roles:
     await message.channel.send('wrong position')
     return
-  screenshot(champion, role, True)
+  screenshot_pro(champion, role, lpl)
   file = discord.File('screenshot.png', filename='champion.png') 
   await message.channel.send(file=file)
 
