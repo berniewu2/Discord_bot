@@ -2,7 +2,8 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from screenshot import screenshot, screenshot_pro
+from screenshot import screenshot, screenshot_pro, screenshot_name
+
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -171,6 +172,15 @@ async def delete(message, arg):
   await msg.delete()
   await message.message.delete()
 
+@bot.command()
+async def check(message, name):
+  loading = discord.File('loading.gif', filename='loading.gif') 
+  await message.channel.send(file=loading)
+  screenshot_name(name)
+  file = discord.File('screenshot.png', filename='champion.png')
+  await message.invoke(bot.get_command('clear'), limit = 0)
+  await message.channel.send(file=file)
+  
 @bot.command()
 async def build(message, champion, role):
   loading = discord.File('loading.gif', filename='loading.gif') 
