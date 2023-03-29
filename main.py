@@ -145,8 +145,12 @@ async def lol(message):
   """
     This command mentions league players
     """
+  player = [465746027941724161,586052628807417878,748079858587795456,191052169569370113,191052169569370113,330695143273267201]
+  if message.author.id in player:
+    player.remove(message.author.id)
+  player = ['<@'+str(x)+'>' for x in player]
   await message.send(
-    'who wants to be carried <@465746027941724161> <@586052628807417878> <@748079858587795456> <@191052169569370113> <@808356393216114688> <@330695143273267201>'
+    'who wants to be carried '+" ".join(player)
   )
 
 
