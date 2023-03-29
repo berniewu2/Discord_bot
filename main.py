@@ -173,7 +173,8 @@ async def delete(message, arg):
 
 @bot.command()
 async def build(message, champion, role):
-  await message.channel.send('処理中')
+  loading = discord.File('loading.gif', filename='loading.gif') 
+  await message.channel.send(file=loading)
   if role=='jg':
     role = 'jungle'
   elif (role=='bot') | (role=='ad'):
@@ -186,18 +187,21 @@ async def build(message, champion, role):
     await message.channel.send('wrong position')
     return
   screenshot(champion, role)
-  file = discord.File('screenshot.png', filename='champion.png') 
+  file = discord.File('screenshot.png', filename='champion.png')
+  await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)
 
 @bot.command()
 async def probuild(message, champion, role):
+  loading = discord.File('loading.gif', filename='loading.gif') 
+  await message.channel.send(file=loading)
   ben = discord.utils.find(lambda r: r.name == 'tits licker',
                             message.guild.roles)
   if ben in message.author.roles:
     lpl = True
   else:
     lpl = False
-    
+
   if role=='jg':
     role = 'jungle'
   elif role=='bot':
@@ -212,7 +216,8 @@ async def probuild(message, champion, role):
     await message.channel.send('wrong position')
     return
   screenshot_pro(champion, role, lpl)
-  file = discord.File('screenshot.png', filename='champion.png') 
+  file = discord.File('screenshot.png', filename='champion.png')
+  await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)
 
 @bot.command()
