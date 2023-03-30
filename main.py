@@ -245,7 +245,7 @@ async def anime(message, *name):
   loading = discord.File('loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   screenshot.screenshot_anime(name)
-  file = discord.File('screenshot.png', filename='champion.png')
+  file = discord.File('screenshot.png', filename=f'{name}.png')
   await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)  
 
