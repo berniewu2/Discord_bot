@@ -106,7 +106,7 @@ async def help(message):
     description=
     'Please subscribe あやめ on YouTube\n https://www.youtube.com/@NakiriAyame',
     color=discord.Colour.red())
-  embed.set_image(url='https://i.imgur.com/V2csjKc.png')
+  embed.set_image(url='https://w0.peakpx.com/wallpaper/190/23/HD-wallpaper-anime-virtual-youtuber-hololive-nakiri-ayame.jpg')
   embed.set_thumbnail(
     url=
     'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
