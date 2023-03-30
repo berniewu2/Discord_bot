@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 import screenshot
-
+import HangmanGame
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -248,7 +248,53 @@ async def anime(message, *name):
   file = discord.File('screenshot.png', filename='champion.png')
   await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)  
- 
+
+@bot.command()
+async def start(message):
+  if message.channel.id in HangmanGame.games:
+    await message.channel.send("There's already a game in progress in this channel!")
+  else:
+    HangmanGame.games[message.channel.id] = HangmanGame.HangmanGame(message.channel)
+    await HangmanGame.games[message.channel.id].start_game()
+
+@bot.command()
+async def guess(message, guess):
+  if message.channel.id not in HangmanGame.games:
+    await message.channel.send('START FIRST')
+    return
+  if len(guess)==1:
+    if not guess.isalpha():
+      await message.channel.send('Didn\'t ur parents teach u how to play hangman?')
+      return
+  guess = guess.lower()
+  if guess == HangmanGame.games[message.channel.id].word:
+      await HangmanGame.games[message.channel.id].channel.send('Congratulations! You won!')
+      end = discord.File('ayame(hangmen_end).jpg', filename='loading.gif')
+      await message.channel.send(file = end)
+      HangmanGame.games[message.channel.id].end_game(message.channel.id)
+  elif guess in HangmanGame.games[message.channel.id].guesses:
+      await HangmanGame.games[message.channel.id].channel.send('You already guessed that letter.')
+  elif guess in HangmanGame.games[message.channel.id].word:
+      HangmanGame.games[message.channel.id].guesses.append(guess)
+      await message.channel.send(HangmanGame.games[message.channel.id].get_board())
+      if '_' not in HangmanGame.games[message.channel.id].get_board():
+          await HangmanGame.games[message.channel.id].channel.send('Congratulations!')
+          end = discord.File('ayame(hangmen_end).jpg', filename='loading.gif')
+          await message.channel.send(file = end)
+  else:
+    HangmanGame.games[message.channel.id].guesses.append(guess)
+    HangmanGame.games[message.channel.id].max_guesses-=1
+    if HangmanGame.games[message.channel.id].max_guesses == 0:
+      await message.channel.send(f'You are bad\n The answer is {HangmanGame.games[message.channel.id].word}')
+      HangmanGame.games[message.channel.id].end_game(message.channel.id)
+      return
+    await message.channel.send(HangmanGame.games[message.channel.id].get_board())
+  
+@bot.command()
+@commands.has_role('我在搞')
+async def quit(message):
+  HangmanGame.games[message.channel.id].end_game(message.channel.id)  
+  
 @bot.command()
 async def test(message, arg):
   await message.send(arg)
