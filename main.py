@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from screenshot import screenshot, screenshot_pro, screenshot_name
+import screenshot
 
 
 load_dotenv()
@@ -180,7 +180,7 @@ async def delete(message, arg):
 async def check(message, name):
   loading = discord.File('loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
-  screenshot_name(name)
+  screenshot.screenshot_name(name)
   file = discord.File('screenshot.png', filename='champion.png')
   await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)
@@ -200,7 +200,7 @@ async def build(message, champion, role):
   if role not in roles:
     await message.channel.send('wrong position')
     return
-  screenshot(champion, role)
+  screenshot.screenshot(champion, role)
   file = discord.File('screenshot.png', filename='champion.png')
   await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)
@@ -229,11 +229,20 @@ async def probuild(message, champion, role):
   if role not in roles:
     await message.channel.send('wrong position')
     return
-  screenshot_pro(champion, role, lpl)
+  screenshot.screenshot_pro(champion, role, lpl)
   file = discord.File('screenshot.png', filename='champion.png')
   await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)
 
+@bot.command()
+async def anime(message, *name):
+  loading = discord.File('loading.gif', filename='loading.gif') 
+  await message.channel.send(file=loading)
+  screenshot.screenshot_anime(name)
+  file = discord.File('screenshot.png', filename='champion.png')
+  await message.invoke(bot.get_command('clear'), limit = 0)
+  await message.channel.send(file=file)  
+ 
 @bot.command()
 async def test(message, arg):
   await message.send(arg)
