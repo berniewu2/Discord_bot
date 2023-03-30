@@ -121,9 +121,9 @@ async def help(message):
   embed.add_field(name='!lol', value='mentions league players', inline=False)
   embed.add_field(name='!delete (message id)', value= 'delete one message by id', inline=False)
   embed.add_field(name='!clear (number)', value= 'delete (number) of message(s)', inline=False)
-  embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OG.GG', inline=False)
+  embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
   embed.add_field(name='!probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
-  embed.add_field(name='!check (summoner name)', value= 'get sumoner\'s history from OG.GG', inline=False)
+  embed.add_field(name='!check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
   embed.add_field(name='!anime (anime name)', value= 'get anime\'s release date', inline=False)
   
   await message.send(embed=embed)
