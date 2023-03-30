@@ -3,6 +3,9 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 options = Options()
@@ -50,5 +53,24 @@ def screenshot_pro(champion, role, lpl):
     driver.set_window_size(1200,1500) # May need manual adjustment(w,h)                                                                                                                
     driver.save_screenshot("screenshot.png")
     driver.quit()
+    print("end...")
+    return
+
+
+def screenshot_anime(name):
+
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    anime = '%20'.join(name)
+    driver.get(f'https://animecountdown.com/search?q={anime}')
+    driver.set_window_size(1200,1500) # May need manual adjustment(w,h)	
+
+    action = ActionChains(driver)
+    action.move_by_offset(95,760)
+
+    action.click().perform()                
+    driver.execute_script("window.scrollTo(0,400)")                                                                                                
+    driver.save_screenshot("screenshot.png")
+    driver.quit()
+
     print("end...")
     return
