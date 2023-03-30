@@ -118,13 +118,19 @@ async def help(message):
   embed.add_field(name='!punch (name)', value='Punch another player', inline=False)
   embed.add_field(name='!roundhouse_kick (multiple name)',
                   value='kick some players',inline=False)
+  embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!lol', value='mentions league players', inline=False)
+  embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OG.GG', inline=False)
+  embed.add_field(name='!probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
+  embed.add_field(name='!check (summoner name)', value= 'get sumoner\'s history from OG.GG', inline=False)
+  embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
+  embed.add_field(name='!anime (anime name)', value= 'get anime\'s release date', inline=False)
+  embed.add_field(name='!start', value='start Hangman',inline=False)
+  embed.add_field(name='!guess (word or character)', value='guess a word or character in Hangman',inline=False)
+  embed.add_field(name='!quit (word or character)', value='quit Hangman',inline=False)
+  embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!delete (message id)', value= 'delete one message by id', inline=False)
   embed.add_field(name='!clear (number)', value= 'delete (number) of message(s)', inline=False)
-  embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
-  embed.add_field(name='!probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
-  embed.add_field(name='!check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
-  embed.add_field(name='!anime (anime name)', value= 'get anime\'s release date', inline=False)
   
   await message.send(embed=embed)
 
@@ -293,6 +299,7 @@ async def guess(message, guess):
 @bot.command()
 @commands.has_role('我在搞')
 async def quit(message):
+  await message.channel.send(f'The answer is {HangmanGame.games[message.channel.id].word}')
   HangmanGame.games[message.channel.id].end_game(message.channel.id)  
   
 @bot.command()
