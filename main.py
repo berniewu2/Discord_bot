@@ -268,8 +268,9 @@ async def guess(message, guess):
   if message.channel.id not in HangmanGame.games:
     await message.channel.send('START FIRST')
     return
-  if len(guess)>len(HangmanGame.games[message.channel.id].word):
+  if (len(guess)>len(HangmanGame.games[message.channel.id].word)) || (guess.isalpha()):
     await message.channel.send('Didn\'t ur parents teach u how to play hangman?')
+    return
   if len(guess)==1:
     if not guess.isalpha():
       await message.channel.send('Didn\'t ur parents teach u how to play hangman?')
