@@ -1,9 +1,11 @@
 import os
+import asyncio
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 import screenshot
 import HangmanGame
+import BlackjackGame
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -16,7 +18,6 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
   print('Bot is now online')
-
   await bot.change_presence(activity=discord.Game(name="打敗Goomba總帥並征服世界"))
 
 
@@ -81,7 +82,7 @@ async def on_message(message):
     await message.delete()
     return
 
-  curseWord = ['fk', 'fuck', 'tf']
+  curseWord = ['fk', 'fuck', 'tf', 'mom']
 
   # delete curse word if match with the list
   if any(word in msg_content for word in curseWord):
@@ -127,10 +128,12 @@ async def help(message):
   embed.add_field(name='!anime (anime name)', value= 'get anime\'s release date', inline=False)
   embed.add_field(name='!start', value='start Hangman',inline=False)
   embed.add_field(name='!guess (word or character)', value='guess a word or character in Hangman',inline=False)
-  embed.add_field(name='!quit (word or character)', value='quit Hangman',inline=False)
+  embed.add_field(name='!quit (game)', value='quit that game',inline=False)
+  embed.add_field(name='!bj', value='play blackjack\nuse "H"it or "S"tand',inline=False)
   embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!delete (message id)', value= 'delete one message by id', inline=False)
   embed.add_field(name='!clear (number)', value= 'delete (number) of message(s)', inline=False)
+
   
   await message.send(embed=embed)
 
@@ -140,7 +143,7 @@ async def info(message):
   """
     This command sends info
     """
-  await message.send(message.author)
+  await message.send('おはよう ' + message.author.name)
   await message.send('這是一個被<@465746027941724161>拋棄的伺服器')
 
 
@@ -188,9 +191,11 @@ async def delete(message, arg):
   await msg.delete()
   await message.message.delete()
 
+#---------------------League----------------------------------------------------------------
+
 @bot.command()
 async def check(message, name):
-  loading = discord.File('loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   screenshot.screenshot_name(name)
   file = discord.File('screenshot.png', filename='champion.png')
@@ -199,7 +204,7 @@ async def check(message, name):
   
 @bot.command()
 async def build(message, champion, role):
-  loading = discord.File('loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   if role=='jg':
     role = 'jungle'
@@ -219,7 +224,7 @@ async def build(message, champion, role):
 
 @bot.command()
 async def probuild(message, champion, role):
-  loading = discord.File('loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   ben = discord.utils.find(lambda r: r.name == 'tits licker',
                             message.guild.roles)
@@ -248,12 +253,14 @@ async def probuild(message, champion, role):
 
 @bot.command()
 async def anime(message, *name):
-  loading = discord.File('loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   screenshot.screenshot_anime(name)
   file = discord.File('screenshot.png', filename=f'{name}.png')
   await message.invoke(bot.get_command('clear'), limit = 0)
   await message.channel.send(file=file)  
+
+#----------------------HangMan-----------------------------------------------------------------------
 
 @bot.command()
 async def start(message):
@@ -281,7 +288,7 @@ async def guess(message, guess):
   guess = guess.lower()
   if guess == HangmanGame.games[message.channel.id].word:
       await HangmanGame.games[message.channel.id].channel.send('Congratulations! You won!')
-      end = discord.File('ayame(hangmen_end).jpg', filename='loading.gif')
+      end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
       await message.channel.send(file = end)
       HangmanGame.games[message.channel.id].end_game(message.channel.id)
   elif guess in HangmanGame.games[message.channel.id].guesses:
@@ -291,7 +298,7 @@ async def guess(message, guess):
       await message.channel.send(HangmanGame.games[message.channel.id].get_board())
       if '_' not in HangmanGame.games[message.channel.id].get_board():
           await HangmanGame.games[message.channel.id].channel.send('Congratulations!')
-          end = discord.File('ayame(hangmen_end).jpg', filename='loading.gif')
+          end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
           await message.channel.send(file = end)
   else:
     HangmanGame.games[message.channel.id].guesses.append(guess)
@@ -304,13 +311,82 @@ async def guess(message, guess):
   
 @bot.command()
 @commands.has_role('我在搞')
-async def quit(message):
-  await message.channel.send(f'The answer is {HangmanGame.games[message.channel.id].word}')
-  HangmanGame.games[message.channel.id].end_game(message.channel.id)  
+async def quit(message, game):
+  if (game == 'hangman'): 
+    await message.channel.send(f'The answer is {HangmanGame.games[message.channel.id].word}')
+    HangmanGame.games[message.channel.id].end_game(message.channel.id)
+  if (game == 'bj'):
+    del BlackjackGame.games[message.channel.id]
+
+#----------------------BlackJack-----------------------------------------------------------------------
+
+@bot.command()
+async def bj(message):
+  target = 0
+  if message.channel.id in BlackjackGame.games:
+    await message.channel.send("There's already a game in progress in this channel!")
+  else:
+    await message.channel.send('Please react to this message in 10 seconds if you want to play Blackjack')
+    async for msg in message.channel.history(limit=1):
+      target = msg.id
+      await msg.add_reaction('♠')
+    await asyncio.sleep(10)
+    msg = await message.channel.fetch_message(target)
+    await msg.remove_reaction('♠', bot.user)
+    users = [user async for user in msg.reactions[0].users()]
+    num_players = len(users)
+    BlackjackGame.games[message.channel.id] = BlackjackGame.Blackjack(users,message.channel)
+    users = [user.name for user in users]
+    await message.channel.send(f'{users} playing black jack')
+    while len(BlackjackGame.games[message.channel.id].hands)>0:
+      users = []
+      await message.channel.send(len(BlackjackGame.games[message.channel.id].deck))
+      await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
+      async for msg in message.channel.history(limit=1):
+        target = msg.id
+        await msg.add_reaction('🇭')
+        await msg.add_reaction('🇸')
+      await asyncio.sleep(10)
+      msg = await message.channel.fetch_message(target)
+      users = [user async for user in msg.reactions[0].users()]
+      print(users)
+      users_stand = [user async for user in msg.reactions[1].users()]
+      if num_players > (len(users)+len(users_stand)-2):
+        await message.channel.send('早く')
+        await asyncio.sleep(10)
+        users = users + [user async for user in msg.reactions[0].users()]
+      print(users)
+
+
+      if len(users)>1:
+        for user in users:
+          if user == bot.user:
+            continue
+          print(user)
+          await BlackjackGame.games[message.channel.id].hit(user)
+      else:
+        break
+    result, no_one_win = BlackjackGame.games[message.channel.id].end(bot.user)
+    if not no_one_win:
+      await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
+      end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
+      await message.channel.send(file = end)
+    else:
+      end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
+      await message.channel.send(file = end)
+    await message.channel.send(result)
+    del BlackjackGame.games[message.channel.id]
+    
+    
+
+
+
+
   
 @bot.command()
-async def test(message, arg):
+async def test(message, *,arg):
   await message.send(arg)
+  print(arg)
 
 
 bot.run(TOKEN)
