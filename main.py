@@ -27,7 +27,7 @@ target_meassage_id = 1085077296555249684
 @bot.event
 async def on_command_error(message, error):
   if isinstance(error, commands.CommandNotFound):
-    await message.channel.send('コマンド がありません')
+    await message.channel.send('コマンド存在しません')
   elif isinstance(error, commands.CheckFailure):
     await message.channel.send("権限がありません")
   elif isinstance(error,commands.MissingRequiredArgument):
@@ -97,7 +97,8 @@ async def on_message(message):
     await message.add_reaction('\U0001F90F')
 
   if message.channel.name == '我們這一家':
-    await bot.process_commands(message)
+    if '!!' not in message.content:
+      await bot.process_commands(message)
 
 
 @bot.command()

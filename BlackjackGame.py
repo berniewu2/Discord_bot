@@ -53,7 +53,7 @@ class Blackjack:
         # Create a standard 52-card deck
         ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
         deck = []
-        for suit in ["Hearts", "Diamonds", "Clubs", "Spades","Hearts", "Diamonds", "Clubs", "Spades"]:
+        for suit in ["Hearts", "Diamonds", "Clubs", "Spades", "Hearts", "Diamonds", "Clubs", "Spades"]:
             for rank in ranks:
                 deck.append((rank, suit))
         random.shuffle(deck)
