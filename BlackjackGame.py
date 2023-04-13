@@ -1,5 +1,5 @@
 import random
-from credit import credits
+import pandas as pd
 games = {}
 def calculate_score(hand):
     # Calculate the score of a hand
@@ -45,6 +45,7 @@ class Blackjack:
     def draw_card(self):
         # Draw a card from the deck
         card = self.deck.pop()
+        random.shuffle(self.deck)
         return card
 
     def create_deck(self):
@@ -75,6 +76,8 @@ class Blackjack:
         return score
         
     async def end(self, bot):
+        data = pd.read_csv('credit.csv')
+        data = data.set_index('ID')
         result = "```\n"
         self.hand.remove('Unknown')
         self.hand.append(self.draw_card())
@@ -95,14 +98,14 @@ class Blackjack:
             for k,v in self.hands.items():
                 no_one_win = False
                 if max < self.calculate(v):
-                    credits[k.id] += self.bets[k]
-                    print(self.bets[k])
+                    data.loc[k.id].values[0] += self.bets[k]
                     result += f"{k.name} wins {self.bets[k]} credits"
                 elif max > self.calculate(v):
-                    credits[k.id] -= self.bets[k]
+                    data.loc[k.id].values[0] -= self.bets[k]
                     result += f"{k.name} loses {self.bets[k]} credits"
 
         result += "```"
+        data.to_csv('credit.csv')
         return result, no_one_win
 
 
@@ -117,11 +120,14 @@ class Blackjack:
         return state
     
     async def hit(self, player):
+        data = pd.read_csv('credit.csv')
+        data = data.set_index('ID')
         self.hands[player].append(self.draw_card())
         if calculate_score(self.hands[player])>21:
             await self.channel.send(self.get_game_state())
-            await self.channel.send(f'busts! {player.name} lose!')
-            credits[player.id] -= self.bets[player]
+            await self.channel.send(f'busts! {player.name} loses {self.bets[player]} credits!')
+            data.loc[player.id].values[0] -= self.bets[player]
+            data.to_csv('credit.csv')
             del self.hands[player]
 
 

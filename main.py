@@ -6,7 +6,7 @@ from discord.ext import commands
 import screenshot
 import HangmanGame
 import BlackjackGame
-from credit import credits
+import pandas as pd
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -281,6 +281,8 @@ async def hangman(message):
 
 @bot.command()
 async def guess(message, guess):
+  data = pd.read_csv('credit.csv')
+  data = data.set_index('ID')
   if message.channel.id not in HangmanGame.games:
     await message.channel.send('START FIRST')
     return
@@ -296,7 +298,8 @@ async def guess(message, guess):
       return
   guess = guess.lower()
   if guess == HangmanGame.games[message.channel.id].word:
-      credits[message.author.id] += 20
+      data.loc[message.author.id].values[0] += 20
+      data.to_csv('credit.csv')
       await HangmanGame.games[message.channel.id].channel.send('Congratulations! You won!')
       await HangmanGame.games[message.channel.id].channel.send(f'**{message.author.name}** wins 20 credits')
       end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
@@ -308,7 +311,8 @@ async def guess(message, guess):
       HangmanGame.games[message.channel.id].guesses.append(guess)
       await message.channel.send(HangmanGame.games[message.channel.id].get_board())
       if '_' not in HangmanGame.games[message.channel.id].get_board():
-          credits[message.author.id] += 20
+          data.loc[message.author.id].values[0] += 20
+          data.to_csv('credit.csv')
           await HangmanGame.games[message.channel.id].channel.send('Congratulations!')
           await HangmanGame.games[message.channel.id].channel.send(f'**{message.author.name}** wins 20 credits')
           end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
@@ -327,7 +331,7 @@ async def guess(message, guess):
 async def quit(message, game):
   if (game == 'hangman'): 
     await message.channel.send(f'The answer is {HangmanGame.games[message.channel.id].word}')
-    #HangmanGame.games[message.channel.id].end_game(message.channel.id)
+    HangmanGame.games[message.channel.id].end_game(message.channel.id)
   if (game == 'bj'):
     del BlackjackGame.games[message.channel.id]
 
@@ -335,6 +339,8 @@ async def quit(message, game):
 
 @bot.command()
 async def bj(message):
+  data = pd.read_csv('credit.csv')
+  data = data.set_index('ID')
   target = 0
   if message.channel.id in BlackjackGame.games:
     await message.channel.send("There's already a game in progress in this channel!")
@@ -351,11 +357,11 @@ async def bj(message):
     five = [user async for user in msg.reactions[0].users()]
     ten = [user async for user in msg.reactions[1].users()]
     for player in five:
-        if credits[player.id] < 5:
+        if data.loc[player.id].values[0] < 5:
           await message.channel.send(f'{player.name} don\'t have enongh credits!')
           five.remove(player)
     for player in ten:
-        if credits[player.id] < 10:
+        if data.loc[player.id].values[0] < 10:
           await message.channel.send(f'{player.name} don\'t have enongh credits!')
           ten.remove(player)
     users = five + ten
@@ -395,14 +401,15 @@ async def bj(message):
 
 @bot.command()
 async def credit(message):
-  sorted_credit = sorted(credits.items(), key=lambda x:x[1], reverse= True)
+  data = pd.read_csv('credit.csv')
+  data = data.set_index('ID')
+  data = data.sort_values(by = ['credit'], ascending=False)
   result = "```\n"
-  for i in sorted_credit:
-      result += "{}: {}\n".format(bot.get_user(i[0]).name,i[1])
+  for i in data.index:
+      result += "{}: {}\n".format(bot.get_user(i).name,data.loc[i].values[0])
   result += "```"
   await message.channel.send(result)
 
-    
 @bot.command()
 async def test(message, *,arg):
   await message.send(arg)
@@ -411,9 +418,12 @@ async def test(message, *,arg):
 @bot.command()
 @commands.has_role('我在搞')
 async def add(message, user, amount):
+  data = pd.read_csv('credit.csv')
+  data = data.set_index('ID')
   user = await commands.MemberConverter().convert(ctx = message,argument = user)
-  credits[user.id] += int(amount)
-  await message.channel.send(f'{user.name} now has {credits[user.id]} credits')
+  data.loc[user.id].values[0] += int(amount)
+  data.to_csv('credit.csv')
+  await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
 
 bot.run(TOKEN)
 
