@@ -99,13 +99,20 @@ async def on_message(message):
   if message.channel.name == '我們這一家':
     if '!!' not in message.content:
       await bot.process_commands(message)
-@bot.command(name='おっぱい', aliases=["oppai"])
-@bot.command()
+
+@bot.command(aliases=["oppai"])
 async def おっぱい(message):
   embed = discord.Embed(
     color=discord.Colour.red())
-  embed.set_image(url='https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.deviantart.com%2Fthesourkraut%2Fart%2FOppai-Tan-507826488&psig=AOvVaw3qQ3WWOtrAoaix7vjdC367&ust=1681455853281000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCJCG6qelpv4CFQAAAAAdAAAAABAE')
-  await message.send(embed=embed)
+  embed.set_image(url='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aa5ac6d0-9bc7-40fd-ba34-b9c36388bbd0/d8echfc-f06f9444-90d8-48b5-8c22-9fc2dae773fc.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhNWFjNmQwLTliYzctNDBmZC1iYTM0LWI5YzM2Mzg4YmJkMFwvZDhlY2hmYy1mMDZmOTQ0NC05MGQ4LTQ4YjUtOGMyMi05ZmMyZGFlNzczZmMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Ug_91_nIwEJuv0VZhZkU8eJudFS5Daj3ajnyHKqXhmw')
+  await message.channel.send(embed=embed)
+
+@bot.command()
+async def 断る(message):
+  embed = discord.Embed(
+    color=discord.Colour.blue())
+  embed.set_image(url='https://pbs.twimg.com/media/CuLSuuDVMAAWB6p.jpg')
+  await message.channel.send(embed=embed)
 
 @bot.command()
 async def help(message):
