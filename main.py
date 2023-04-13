@@ -123,7 +123,7 @@ async def help(message):
   embed.add_field(name='!check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
   embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!anime (anime name)', value= 'get anime\'s release date', inline=False)
-  embed.add_field(name='!start', value='start Hangman',inline=False)
+  embed.add_field(name='!hangman', value='start Hangman',inline=False)
   embed.add_field(name='!guess (word or character)', value='guess a word or character in Hangman',inline=False)
   embed.add_field(name='!quit (game)', value='quit that game',inline=False)
   embed.add_field(name='!bj', value='play blackjack\nuse "H"it or "S"tand',inline=False)
@@ -244,7 +244,7 @@ async def anime(message, *name):
 #----------------------HangMan-----------------------------------------------------------------------
 
 @bot.command()
-async def start(message):
+async def hangman(message):
   if message.channel.id in HangmanGame.games:
     await message.channel.send("There's already a game in progress in this channel!")
   else:
