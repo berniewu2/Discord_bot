@@ -326,14 +326,9 @@ async def bj(message):
         target = msg.id
         await msg.add_reaction('🇭')
         await msg.add_reaction('🇸')
-      await asyncio.sleep(10)
+      await asyncio.sleep(5)
       msg = await message.channel.fetch_message(target)
       users = [user async for user in msg.reactions[0].users()]
-      users_stand = [user async for user in msg.reactions[1].users()]
-      if num_players > (len(users)+len(users_stand)-2):
-        await message.channel.send('早く')
-        await asyncio.sleep(10)
-        users = users + [user async for user in msg.reactions[0].users()]
       print (len(users))
       if len(users)>1:
         for user in users:
