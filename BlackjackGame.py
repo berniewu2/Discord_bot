@@ -118,8 +118,8 @@ class Blackjack:
     def get_game_state(self):
         # Return the current state of the game
         state = "```\n"
+        state += "{}: {}\n\n".format('百鬼あやめ', ", ".join(str(card) for card in self.hand))
         for player in self.hands:
-            state += "{}: {}\n\n".format('百鬼あやめ', ", ".join(str(card) for card in self.hand))
             state += "{}: {}\n".format(player.name, ", ".join(str(card) for card in self.hands[player]))
             state += "Bet: {}\n\n".format(self.bets[player])
         state += "```"

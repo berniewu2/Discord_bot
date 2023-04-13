@@ -321,7 +321,6 @@ async def bj(message):
     await message.channel.send(f'{users} playing black jack')
     while len(BlackjackGame.games[message.channel.id].hands)>0:
       users = []
-      await message.channel.send(len(BlackjackGame.games[message.channel.id].deck))
       await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
       async for msg in message.channel.history(limit=1):
         target = msg.id
@@ -330,13 +329,11 @@ async def bj(message):
       await asyncio.sleep(10)
       msg = await message.channel.fetch_message(target)
       users = [user async for user in msg.reactions[0].users()]
-      print(users)
       users_stand = [user async for user in msg.reactions[1].users()]
       if num_players > (len(users)+len(users_stand)-2):
         await message.channel.send('早く')
         await asyncio.sleep(10)
         users = users + [user async for user in msg.reactions[0].users()]
-      print(users)
 
 
       if len(users)>1:
