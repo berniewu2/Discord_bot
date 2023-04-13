@@ -262,7 +262,7 @@ async def probuild(message, champion, role):
 
 @bot.command()
 async def anime(message, *name):
-  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image//loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   screenshot.screenshot_anime(name)
   file = discord.File('screenshot.png', filename=f'{name}.png')
