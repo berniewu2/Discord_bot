@@ -334,8 +334,7 @@ async def bj(message):
         await message.channel.send('早く')
         await asyncio.sleep(10)
         users = users + [user async for user in msg.reactions[0].users()]
-
-
+      print (len(users))
       if len(users)>1:
         for user in users:
           if user == bot.user:
