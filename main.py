@@ -204,7 +204,7 @@ async def delete(message, arg):
 
 @bot.command()
 async def check(message, name):
-  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
+  loading = discord.File('Discord_bot/ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   screenshot.screenshot_name(name)
   file = discord.File('screenshot.png', filename='champion.png')
@@ -213,7 +213,7 @@ async def check(message, name):
   
 @bot.command()
 async def build(message, champion, role):
-  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
+  loading = discord.File('Discord_bot/ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   if role=='jg':
     role = 'jungle'
@@ -233,7 +233,7 @@ async def build(message, champion, role):
 
 @bot.command()
 async def probuild(message, champion, role):
-  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
+  loading = discord.File('Discord_bot/ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   ben = discord.utils.find(lambda r: r.name == 'tits licker',
                             message.guild.roles)
