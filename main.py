@@ -408,6 +408,12 @@ async def test(message, *,arg):
   await message.send(arg)
   print(arg)
 
+@bot.command()
+@commands.has_role('我在搞')
+async def add(message, user, amount):
+  user = await commands.MemberConverter().convert(ctx = message,argument = user)
+  credits[user.id] += int(amount)
+  await message.channel.send(f'{user.name} now has {credits[user.id]} credits')
 
 bot.run(TOKEN)
 

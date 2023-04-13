@@ -106,8 +106,6 @@ class Blackjack:
         return result, no_one_win
 
 
-
-
     def get_game_state(self):
         # Return the current state of the game
         state = "```\n"
