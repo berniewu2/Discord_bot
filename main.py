@@ -204,7 +204,7 @@ async def delete(message, arg):
 
 @bot.command()
 async def check(message, name):
-  loading = discord.File('Discord_bot/ayame_image/loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   screenshot.screenshot_name(name)
   file = discord.File('screenshot.png', filename='champion.png')
@@ -213,7 +213,7 @@ async def check(message, name):
   
 @bot.command()
 async def build(message, champion, role):
-  loading = discord.File('Discord_bot/ayame_image/loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   if role=='jg':
     role = 'jungle'
@@ -233,7 +233,7 @@ async def build(message, champion, role):
 
 @bot.command()
 async def probuild(message, champion, role):
-  loading = discord.File('Discord_bot/ayame_image/loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   ben = discord.utils.find(lambda r: r.name == 'tits licker',
                             message.guild.roles)
@@ -262,7 +262,7 @@ async def probuild(message, champion, role):
 
 @bot.command()
 async def anime(message, *name):
-  loading = discord.File('Discord_bot//ayame_image//loading.gif', filename='loading.gif') 
+  loading = discord.File('ayame_image/loading.gif', filename='loading.gif') 
   await message.channel.send(file=loading)
   screenshot.screenshot_anime(name)
   file = discord.File('screenshot.png', filename=f'{name}.png')
@@ -302,7 +302,7 @@ async def guess(message, guess):
       data.to_csv('credit.csv')
       await HangmanGame.games[message.channel.id].channel.send('Congratulations! You won!')
       await HangmanGame.games[message.channel.id].channel.send(f'**{message.author.name}** wins 20 credits')
-      end = discord.File('Discord_bot/ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
+      end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
       await message.channel.send(file = end)
       HangmanGame.games[message.channel.id].end_game(message.channel.id)
   elif guess in HangmanGame.games[message.channel.id].guesses:
@@ -315,7 +315,7 @@ async def guess(message, guess):
           data.to_csv('credit.csv')
           await HangmanGame.games[message.channel.id].channel.send('Congratulations!')
           await HangmanGame.games[message.channel.id].channel.send(f'**{message.author.name}** wins 20 credits')
-          end = discord.File('Discord_bot/ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
+          end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
           await message.channel.send(file = end)
   else:
     HangmanGame.games[message.channel.id].guesses.append(guess)
@@ -391,10 +391,10 @@ async def bj(message):
     result, no_one_win = await BlackjackGame.games[message.channel.id].end(bot.user)
     if not no_one_win:
       await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
-      end = discord.File('Discord_bot/ayame_image/ayame_ya.jpg', filename='ya.jpg')
+      end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
       await message.channel.send(file = end)
     else:
-      end = discord.File('Discord_bot/ayame_image/ayame_victory.jpg', filename='loser.jpg')
+      end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
       await message.channel.send(file = end)
     await message.channel.send(result)
     del BlackjackGame.games[message.channel.id]
