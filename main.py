@@ -186,7 +186,6 @@ async def lol(message):
     'who wants to be carried '+" ".join(player)
   )
 
-
 @bot.command(name='clear', aliases=["purge"])
 @commands.has_role('我在搞')
 async def clear(message, limit=1):
