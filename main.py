@@ -116,9 +116,6 @@ async def help(message):
   embed.add_field(name='!info',
                   value='infomation about this server',
                   inline=False)
-  embed.add_field(name='!punch (name)', value='Punch another player', inline=False)
-  embed.add_field(name='!roundhouse_kick (multiple name)',
-                  value='kick some players',inline=False)
   embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!lol', value='mentions league players', inline=False)
   embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
@@ -148,14 +145,6 @@ async def info(message):
 
 
 @bot.command()
-async def punch(message, arg):
-  """
-    This command punches another player
-    """
-  await message.send(f'Punched👊 {arg}')
-
-
-@bot.command()
 async def lol(message):
   """
     This command mentions league players
@@ -168,14 +157,6 @@ async def lol(message):
     'who wants to be carried '+" ".join(player)
   )
 
-
-@bot.command()
-async def roundhouse_kick(message, *args):
-  if len(args) == 0:
-    await message.channel.send('who do u want to kick?')
-    return
-  everyone = ', '.join(args)
-  await message.send(f'{message.author} roundhouse kicked {everyone}')
 
 
 @bot.command(name='clear', aliases=["purge"])
