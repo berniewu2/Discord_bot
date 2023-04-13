@@ -1,4 +1,5 @@
 import random
+from credit import credits
 games = {}
 def calculate_score(hand):
     # Calculate the score of a hand
@@ -19,30 +20,27 @@ def calculate_score(hand):
     return score
 
 class Blackjack:
-    def __init__(self, players, channel):
+    def __init__(self, channel, five, ten):
         self.channel = channel
         self.deck = self.create_deck()
-        self.players = players
         self.hands = {}
         self.hand = []
         self.bets = {}
+        self.players = five + ten
+
 
         self.hand.append(self.draw_card())
+
+        for player in five:
+            self.bets[player] = 5
+        for player in ten:
+            self.bets[player] = 10
+
         # Deal the initial cards
         for player in self.players:
             self.hands[player] = [self.draw_card(), self.draw_card()]
-            self.bets[player] = 0
         self.hand.append('Unknown')
-        # Check for blackjack
-        """
-        for player in self.players:
-            if calculate_score(self.hands[player]) == 21:
-                return "{} got blackjack! They win.".format(player)
-        """
 
-
-        # Return the initial state of the game
-    
 
     def draw_card(self):
         # Draw a card from the deck
@@ -76,10 +74,12 @@ class Blackjack:
             num_aces -= 1
         return score
         
-    def end(self, bot):
+    async def end(self, bot):
+        result = "```\n"
         self.hand.remove('Unknown')
         self.hand.append(self.draw_card())
         winner = []
+        tie = []
         no_one_win = True
         max = self.calculate(self.hand)
 
@@ -89,28 +89,21 @@ class Blackjack:
             while(max < 17):
                 self.hand.append(self.draw_card())
                 max = self.calculate(self.hand)
-            if max < 21 :
-                winner.append(bot)
-            else:
+            if max > 21:
                 max = 0
-            
             
             for k,v in self.hands.items():
                 no_one_win = False
                 if max < self.calculate(v):
-                    max = self.calculate(v)
-                    winner = [k]
-                if max == self.calculate(v):
-                    if k in winner:
-                        continue
-                    winner.append(k)
+                    credits[k.id] += self.bets[k]
+                    print(self.bets[k])
+                    result += f"{k.name} wins {self.bets[k]} credits"
+                elif max > self.calculate(v):
+                    credits[k.id] -= self.bets[k]
+                    result += f"{k.name} loses {self.bets[k]} credits"
 
-        winner = [i.name for i in winner]
-        result = "```\n"
-        result += "{}{}\n\n".format(", ".join(winner),'の勝利', )
         result += "```"
         return result, no_one_win
-
 
 
 
@@ -130,6 +123,7 @@ class Blackjack:
         if calculate_score(self.hands[player])>21:
             await self.channel.send(self.get_game_state())
             await self.channel.send(f'busts! {player.name} lose!')
+            credits[player.id] -= self.bets[player]
             del self.hands[player]
 
 

@@ -6,6 +6,7 @@ from discord.ext import commands
 import screenshot
 import HangmanGame
 import BlackjackGame
+from credit import credits
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -79,8 +80,11 @@ async def on_message(message):
     msg_content = message.content.lower()
 
   if message.channel.name == 'doraemon':
-    await message.delete()
-    return
+    role = discord.utils.find(lambda r: r.name == '我在搞',
+                            message.guild.roles)
+    if role not in message.author.roles:
+      await message.delete()
+      return
 
   curseWord = ['fk', 'fuck', 'tf', 'mom']
 
@@ -96,9 +100,8 @@ async def on_message(message):
   if role in message.author.roles:
     await message.add_reaction('\U0001F90F')
 
-  if message.channel.name == '我們這一家':
-    if '!!' not in message.content:
-      await bot.process_commands(message)
+  if '!!' not in message.content:
+    await bot.process_commands(message)
 
 @bot.command(aliases=["oppai"])
 async def おっぱい(message):
@@ -112,6 +115,13 @@ async def 断る(message):
   embed = discord.Embed(
     color=discord.Colour.blue())
   embed.set_image(url='https://pbs.twimg.com/media/CuLSuuDVMAAWB6p.jpg')
+  await message.channel.send(embed=embed)
+
+@bot.command()
+async def pray(message):
+  embed = discord.Embed(
+    color=discord.Colour.teal())
+  embed.set_image(url='https://media.tenor.com/YdDEOK6wfvUAAAAC/mushoku-tensei-roxy-migurdia.gif')
   await message.channel.send(embed=embed)
 
 @bot.command()
@@ -133,6 +143,7 @@ async def help(message):
   embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!おっぱい/oppai', value='晉見おっぱい教主', inline=False)
   embed.add_field(name='!断る', value='だが断る！', inline=False)
+  embed.add_field(name='!pray', value='useless command', inline=False)
   embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!lol', value='mentions league players', inline=False)
   embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
@@ -144,11 +155,11 @@ async def help(message):
   embed.add_field(name='!guess (word or character)', value='guess a word or character in Hangman',inline=False)
   embed.add_field(name='!quit (game)', value='quit that game',inline=False)
   embed.add_field(name='!bj', value='play blackjack\nuse "H"it or "S"tand',inline=False)
+  embed.add_field(name='!credit', value='see everyone\'s credits', inline=False)
   embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!delete (message id)', value= 'delete one message by id', inline=False)
   embed.add_field(name='!clear (number)', value= 'delete (number) of message(s)', inline=False)
 
-  
   await message.send(embed=embed)
 
 
@@ -160,6 +171,7 @@ async def info(message):
   await message.send('おはよう ' + message.author.name)
   await message.send('這是一個被<@465746027941724161>拋棄的伺服器')
 
+#------------------------------------------------------------------------------------------------------------
 
 @bot.command()
 async def lol(message):
@@ -173,7 +185,6 @@ async def lol(message):
   await message.send(
     'who wants to be carried '+" ".join(player)
   )
-
 
 
 @bot.command(name='clear', aliases=["purge"])
@@ -285,7 +296,9 @@ async def guess(message, guess):
       return
   guess = guess.lower()
   if guess == HangmanGame.games[message.channel.id].word:
+      credits[message.author.id] += 20
       await HangmanGame.games[message.channel.id].channel.send('Congratulations! You won!')
+      await HangmanGame.games[message.channel.id].channel.send(f'**{message.author.name}** wins 20 credits')
       end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
       await message.channel.send(file = end)
       HangmanGame.games[message.channel.id].end_game(message.channel.id)
@@ -295,7 +308,9 @@ async def guess(message, guess):
       HangmanGame.games[message.channel.id].guesses.append(guess)
       await message.channel.send(HangmanGame.games[message.channel.id].get_board())
       if '_' not in HangmanGame.games[message.channel.id].get_board():
+          credits[message.author.id] += 20
           await HangmanGame.games[message.channel.id].channel.send('Congratulations!')
+          await HangmanGame.games[message.channel.id].channel.send(f'**{message.author.name}** wins 20 credits')
           end = discord.File('ayame_image/ayame(hangman_end).jpg', filename='loading.gif')
           await message.channel.send(file = end)
   else:
@@ -312,7 +327,7 @@ async def guess(message, guess):
 async def quit(message, game):
   if (game == 'hangman'): 
     await message.channel.send(f'The answer is {HangmanGame.games[message.channel.id].word}')
-    HangmanGame.games[message.channel.id].end_game(message.channel.id)
+    #HangmanGame.games[message.channel.id].end_game(message.channel.id)
   if (game == 'bj'):
     del BlackjackGame.games[message.channel.id]
 
@@ -324,18 +339,32 @@ async def bj(message):
   if message.channel.id in BlackjackGame.games:
     await message.channel.send("There's already a game in progress in this channel!")
   else:
-    await message.channel.send('Please react to this message in 10 seconds if you want to play Blackjack')
+    await message.channel.send('Place you bets if u want to play BlackJack')
     async for msg in message.channel.history(limit=1):
       target = msg.id
-      await msg.add_reaction('♠')
-    await asyncio.sleep(10)
+      await msg.add_reaction('5️⃣')
+      await msg.add_reaction('🔟')
+    await asyncio.sleep(5)
     msg = await message.channel.fetch_message(target)
-    await msg.remove_reaction('♠', bot.user)
-    users = [user async for user in msg.reactions[0].users()]
-    num_players = len(users)
-    BlackjackGame.games[message.channel.id] = BlackjackGame.Blackjack(users,message.channel)
+    await msg.remove_reaction('5️⃣', bot.user)
+    await msg.remove_reaction('🔟', bot.user)
+    five = [user async for user in msg.reactions[0].users()]
+    ten = [user async for user in msg.reactions[1].users()]
+    for player in five:
+        if credits[player.id] < 5:
+          await message.channel.send(f'{player.name} don\'t have enongh credits!')
+          five.remove(player)
+    for player in ten:
+        if credits[player.id] < 10:
+          await message.channel.send(f'{player.name} don\'t have enongh credits!')
+          ten.remove(player)
+    users = five + ten
+    BlackjackGame.games[message.channel.id] = BlackjackGame.Blackjack(message.channel, five, ten)
     users = [user.name for user in users]
-    await message.channel.send(f'{users} playing black jack')
+    if len(users) == 0:
+      await message.channel.send('おまえらはみんな小心者だ')
+    else:
+      await message.channel.send(f'{users} playing blackjack')
     while len(BlackjackGame.games[message.channel.id].hands)>0:
       users = []
       await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
@@ -346,16 +375,14 @@ async def bj(message):
       await asyncio.sleep(5)
       msg = await message.channel.fetch_message(target)
       users = [user async for user in msg.reactions[0].users()]
-      print (len(users))
       if len(users)>1:
         for user in users:
           if user == bot.user:
             continue
-          print(user)
           await BlackjackGame.games[message.channel.id].hit(user)
       else:
         break
-    result, no_one_win = BlackjackGame.games[message.channel.id].end(bot.user)
+    result, no_one_win = await BlackjackGame.games[message.channel.id].end(bot.user)
     if not no_one_win:
       await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
       end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
@@ -365,13 +392,17 @@ async def bj(message):
       await message.channel.send(file = end)
     await message.channel.send(result)
     del BlackjackGame.games[message.channel.id]
+
+@bot.command()
+async def credit(message):
+  sorted_credit = sorted(credits.items(), key=lambda x:x[1], reverse= True)
+  result = "```\n"
+  for i in sorted_credit:
+      result += "{}: {}\n".format(bot.get_user(i[0]).name,i[1])
+  result += "```"
+  await message.channel.send(result)
+
     
-    
-
-
-
-
-  
 @bot.command()
 async def test(message, *,arg):
   await message.send(arg)
