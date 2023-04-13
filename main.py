@@ -131,6 +131,9 @@ async def help(message):
                   value='infomation about this server',
                   inline=False)
   embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
+  embed.add_field(name='!おっぱい/oppai', value='晉見おっぱい教主', inline=False)
+  embed.add_field(name='!断る', value='だが断る！', inline=False)
+  embed.add_field(name=' ', value=' --------------------------------------------------',inline=False)
   embed.add_field(name='!lol', value='mentions league players', inline=False)
   embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
   embed.add_field(name='!probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
