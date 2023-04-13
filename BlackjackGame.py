@@ -81,13 +81,12 @@ class Blackjack:
         result = "```\n"
         self.hand.remove('Unknown')
         self.hand.append(self.draw_card())
-        winner = []
-        tie = []
         no_one_win = True
         max = self.calculate(self.hand)
 
         if len(self.hands)==0:
-            winner.append(bot)
+            result += "百鬼あやめ最高"
+
         else:
             while(max < 17):
                 self.hand.append(self.draw_card())
