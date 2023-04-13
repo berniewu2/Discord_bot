@@ -99,7 +99,13 @@ async def on_message(message):
   if message.channel.name == '我們這一家':
     if '!!' not in message.content:
       await bot.process_commands(message)
-
+@bot.command(name='おっぱい', aliases=["oppai"])
+@bot.command()
+async def おっぱい(message):
+  embed = discord.Embed(
+    color=discord.Colour.red())
+  embed.set_image(url='https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.deviantart.com%2Fthesourkraut%2Fart%2FOppai-Tan-507826488&psig=AOvVaw3qQ3WWOtrAoaix7vjdC367&ust=1681455853281000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCJCG6qelpv4CFQAAAAAdAAAAABAE')
+  await message.send(embed=embed)
 
 @bot.command()
 async def help(message):
