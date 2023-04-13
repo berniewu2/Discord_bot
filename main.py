@@ -96,7 +96,7 @@ async def on_message(message):
   if role in message.author.roles:
     await message.add_reaction('\U0001F90F')
 
-  if message.channel.name == '一般':
+  if message.channel.name == '我們這一家':
     await bot.process_commands(message)
 
 
