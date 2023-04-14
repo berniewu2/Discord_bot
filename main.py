@@ -368,8 +368,6 @@ async def bj(message):
     users = [user.name for user in users]
     if len(users) == 0:
       await message.channel.send('おまえらはみんな小心者だ')
-    else:
-      await message.channel.send(f'{users} playing blackjack')
     while len(BlackjackGame.games[message.channel.id].hands)>0:
       users = []
       await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
