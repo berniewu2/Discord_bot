@@ -24,7 +24,7 @@ async def on_ready():
 
 target_meassage_id = 1085077296555249684
 
-'''
+
 @bot.event
 async def on_command_error(message, error):
   if isinstance(error, commands.CommandNotFound):
@@ -36,7 +36,7 @@ async def on_command_error(message, error):
   else:
     await message.channel.send(f'Error: {error}')
   pass
-'''
+
 
 @bot.event
 async def on_raw_reaction_add(payload):
