@@ -143,7 +143,7 @@ async def help(message):
   embed.add_field(name=' ', value=' ---------------------------------------',inline=False)
   embed.add_field(name='!おっぱい/oppai', value='晉見おっぱい教主', inline=False)
   embed.add_field(name='!断る', value='だが断る！', inline=False)
-  embed.add_field(name='!pray', value='useless command', inline=False)
+  embed.add_field(name='!pray', value='pray everyday!!!', inline=False)
   embed.add_field(name=' ', value=' --------------------------------------',inline=False)
   embed.add_field(name='!lol', value='mentions league players', inline=False)
   embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
@@ -154,11 +154,8 @@ async def help(message):
   embed.add_field(name='!hangman', value='start Hangman',inline=False)
   embed.add_field(name='!guess (word or character)', value='guess a word or character in Hangman',inline=False)
   embed.add_field(name='!quit (game)', value='quit that game',inline=False)
-  embed.add_field(name='!bj', value='play blackjack\nuse "H"it or "S"tand',inline=False)
+  embed.add_field(name='!bj', value='use **H**it, **S**tand, or 🃏(split) to play blackjack',inline=False)
   embed.add_field(name='!credit', value='see everyone\'s credits', inline=False)
-  embed.add_field(name=' ', value=' ---------------------------------------',inline=False)
-  embed.add_field(name='!delete (message id)', value= 'delete one message by id', inline=False)
-  embed.add_field(name='!clear (number)', value= 'delete (number) of message(s)', inline=False)
 
   await message.send(embed=embed)
 
