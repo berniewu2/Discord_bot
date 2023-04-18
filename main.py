@@ -24,7 +24,7 @@ async def on_ready():
 
 target_meassage_id = 1085077296555249684
 
-
+'''
 @bot.event
 async def on_command_error(message, error):
   if isinstance(error, commands.CommandNotFound):
@@ -36,7 +36,7 @@ async def on_command_error(message, error):
   else:
     await message.channel.send(f'Error: {error}')
   pass
-
+'''
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -338,6 +338,7 @@ async def quit(message, game):
 
 @bot.command()
 async def bj(message):
+  split = False
   data = pd.read_csv('credit.csv')
   data = data.set_index('ID')
   target = 0
@@ -364,30 +365,15 @@ async def bj(message):
           await message.channel.send(f'{player.name} don\'t have enongh credits!')
           ten.remove(player)
     users = five + ten
-    BlackjackGame.games[message.channel.id] = BlackjackGame.Blackjack(message.channel, five, ten)
-    users = [user.name for user in users]
     if len(users) == 0:
       await message.channel.send('おまえらはみんな小心者だ')
-    while len(BlackjackGame.games[message.channel.id].hands)>0:
-      users = []
-      await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
-      async for msg in message.channel.history(limit=1):
-        target = msg.id
-        await msg.add_reaction('🇭')
-        await msg.add_reaction('🇸')
-      await asyncio.sleep(5)
-      msg = await message.channel.fetch_message(target)
-      users = [user async for user in msg.reactions[0].users()]
-      if len(users)>1:
-        for user in users:
-          if user == bot.user:
-            continue
-          await BlackjackGame.games[message.channel.id].hit(user)
-      else:
-        break
-    result, no_one_win = await BlackjackGame.games[message.channel.id].end(bot.user)
+      end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
+      await message.channel.send(file = end)
+      return
+    BlackjackGame.games[message.channel.id] = BlackjackGame.Blackjack(message.channel,bot.user, five, ten)
+    await BlackjackGame.games[message.channel.id].start_game()
+    result, no_one_win = await BlackjackGame.games[message.channel.id].end()
     if not no_one_win:
-      await message.channel.send(BlackjackGame.games[message.channel.id].get_game_state())
       end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
       await message.channel.send(file = end)
     else:
