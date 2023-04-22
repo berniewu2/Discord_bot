@@ -88,7 +88,7 @@ async def on_message(message):
       await message.delete()
       return
 
-  curseWord = ['fk', 'fuck', 'tf', 'mom', 'nmsl', 'bitch', 'pussy' , 'mother']
+  curseWord = ['fk', 'fuck', 'tf', 'mom', 'nmsl', 'bitch', 'pussy' , 'mother', 'shit']
 
   # delete curse word if match with the list
   if any(word in msg_content for word in curseWord):
