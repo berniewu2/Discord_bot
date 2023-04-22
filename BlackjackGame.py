@@ -34,7 +34,6 @@ class Blackjack:
     async def start_game(self):
         while len(self.hands)>0 and self.not_finish:
             self.not_finish = False
-            print(len(self.deck))
             await self.channel.send(self.get_game_state())
             for h in self.hands:
                 await self.channel.send(h.get_game_state())

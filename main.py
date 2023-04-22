@@ -31,12 +31,14 @@ async def on_command_error(message, error):
     await message.channel.send('コマンド存在しません')
   elif isinstance(error, commands.CheckFailure):
     await message.channel.send("権限がありません")
-  elif isinstance(error,commands.MissingRequiredArgument):
+  elif isinstance(error, commands.MissingRequiredArgument):
     await message.channel.send('必須の引数がありません')
+  elif isinstance(error, commands.CommandInvokeError):
+    print(error)
+    pass
   else:
     await message.channel.send(f'Error: {error}')
   pass
-
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -140,16 +142,16 @@ async def help(message):
   embed.add_field(name='!info',
                   value='infomation about this server',
                   inline=False)
-  embed.add_field(name=' ', value=' ---------------------------------------',inline=False)
+  embed.add_field(name=' ', value=' -------------------------------------',inline=False)
   embed.add_field(name='!おっぱい/oppai', value='晉見おっぱい教主', inline=False)
   embed.add_field(name='!断る', value='だが断る！', inline=False)
   embed.add_field(name='!pray', value='pray everyday!!!', inline=False)
-  embed.add_field(name=' ', value=' --------------------------------------',inline=False)
+  embed.add_field(name=' ', value=' -------------------------------------',inline=False)
   embed.add_field(name='!lol', value='mentions league players', inline=False)
   embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
   embed.add_field(name='!probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
   embed.add_field(name='!check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
-  embed.add_field(name=' ', value=' ---------------------------------------',inline=False)
+  embed.add_field(name=' ', value=' -------------------------------------',inline=False)
   embed.add_field(name='!anime (anime name)', value= 'get anime\'s release date', inline=False)
   embed.add_field(name='!hangman', value='start Hangman',inline=False)
   embed.add_field(name='!guess (word or character)', value='guess a word or character in Hangman',inline=False)
