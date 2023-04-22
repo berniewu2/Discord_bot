@@ -342,7 +342,7 @@ async def bj(message):
   if message.channel.id in BlackjackGame.games:
     await message.channel.send("There's already a game in progress in this channel!")
   else:
-    await message.channel.send('Place you bets if u want to play BlackJack')
+    await message.channel.send('Place your bets if u want to play BlackJack')
     async for msg in message.channel.history(limit=1):
       target = msg.id
       await msg.add_reaction('5️⃣')
