@@ -82,13 +82,11 @@ class Blackjack:
             
 
     def draw_card(self,deck):
-        # Draw a card from the deck
         card = deck.pop()
         random.shuffle(deck)
         return card
     
     def create_deck(self):
-    # Create a standard deck
         ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"] #
         deck = []
         for suit in ["♥️", "♦️", "♣️", "♠️", "♥️", "♦️", "♣️", "♠️"]:
@@ -167,7 +165,6 @@ class Blackjack:
         return state
 
     def get_game_state(self):
-        # Return the current state of the game
         state = "```\n"
         state += "{}: {}\n\n".format(self.player.name, ", ".join(str(card) for card in self.hand))
         state += "Bet: {}\n\n".format(self.bet)

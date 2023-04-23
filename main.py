@@ -90,7 +90,6 @@ async def on_message(message):
 
   curseWord = ['fk', 'fuck', 'tf', 'mom', 'nmsl', 'bitch', 'pussy' , 'mother', 'shit']
 
-  # delete curse word if match with the list
   if any(word in msg_content for word in curseWord):
     await message.delete()
     writer = str(message.author).split("#")[0]
