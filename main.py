@@ -118,7 +118,7 @@ async def on_message(message):
     if '!!' not in message.content:
         await bot.process_commands(message)
 
-@bot.tree.command(name="oppai", description="oppai")
+@bot.tree.command(name="oppai", description="晉見おっぱい教主")
 async def self(interation: discord.Integration):
 	embed = discord.Embed(
 		color=discord.Colour.red())
@@ -126,14 +126,14 @@ async def self(interation: discord.Integration):
 	await interation.response.send_message(embed=embed)
 
 
-@bot.tree.command(name="断る", description="断る")
+@bot.tree.command(name="断る", description="だが断る！")
 async def self(interation: discord.Integration):
 	embed = discord.Embed(
         color=discord.Colour.blue())
 	embed.set_image(url='https://pbs.twimg.com/media/CuLSuuDVMAAWB6p.jpg')
 	await interation.response.send_message(embed=embed)
 
-@bot.tree.command(name="pray", description="pray everyday")
+@bot.tree.command(name="pray", description="pray everyday!!!")
 async def self(interation: discord.Integration):
 	embed = discord.Embed(
 		color=discord.Colour.teal())
@@ -157,21 +157,21 @@ async def self(interation: discord.Integration):
         value='infomation about this server',
 		inline=False)
 	embed.add_field(name=' ', value=' -------------------------------------',inline=False)
-	embed.add_field(name='!おっぱい/oppai', value='晉見おっぱい教主', inline=False)
-	embed.add_field(name='!断る', value='だが断る！', inline=False)
-	embed.add_field(name='!pray', value='pray everyday!!!', inline=False)
+	embed.add_field(name='/oppai', value='晉見おっぱい教主', inline=False)
+	embed.add_field(name='/断る', value='だが断る！', inline=False)
+	embed.add_field(name='/pray', value='pray everyday!!!', inline=False)
 	embed.add_field(name=' ', value=' -------------------------------------',inline=False)
-	embed.add_field(name='!lol', value='mentions league players', inline=False)
-	embed.add_field(name='!build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
-	embed.add_field(name='!probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
-	embed.add_field(name='!check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
+	embed.add_field(name='/lol', value='mentions league players', inline=False)
+	embed.add_field(name='/build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
+	embed.add_field(name='/probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
+	embed.add_field(name='/check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
 	embed.add_field(name=' ', value=' -------------------------------------',inline=False)
-	embed.add_field(name='!anime (anime name)', value= 'get anime\'s release date', inline=False)
-	embed.add_field(name='!hangman', value='start Hangman',inline=False)
-	embed.add_field(name='!guess (word or character)', value='guess a word or character in Hangman',inline=False)
-	embed.add_field(name='!quit (game)', value='quit that game',inline=False)
-	embed.add_field(name='!bj', value='use **H**it, **S**tand, or 🃏(split) to play blackjack',inline=False)
-	embed.add_field(name='!credit', value='see everyone\'s credits', inline=False)
+	embed.add_field(name='/anime (anime name)', value= 'get anime\'s release date', inline=False)
+	embed.add_field(name='/hangman', value='start Hangman',inline=False)
+	embed.add_field(name='/g (word or character)', value='guess a word or character in Hangman',inline=False)
+	embed.add_field(name='/quit (game)', value='quit that game',inline=False)
+	embed.add_field(name='/bj', value='use **H**it, **S**tand, or 🃏(split) to play blackjack',inline=False)
+	embed.add_field(name='/credit', value='see everyone\'s credits', inline=False)
   
 	await interation.response.send_message(embed=embed)
 
@@ -181,7 +181,7 @@ async def self(interation: discord.Integration):
 	await interation.response.send_message(f'{interation.user.name}\n這是一個被<@465746027941724161>拋棄的伺服器')
 #------------------------------------------------------------------------------------------------------------
 
-@bot.tree.command(name="lol", description="lol")
+@bot.tree.command(name="lol", description="mentions league players")
 async def self(interation: discord.Integration):
 	"""
 	This command mentions league players
@@ -207,7 +207,7 @@ async def delete(message, arg):
 
 #---------------------League----------------------------------------------------------------
 
-@bot.tree.command(name="check", description="check")
+@bot.tree.command(name="check", description="get sumoner\'s history from OP.GG")
 async def self(interation: discord.Integration, name:str):
 	await interation.response.defer()
 	screenshot.screenshot_name(name)
@@ -215,7 +215,7 @@ async def self(interation: discord.Integration, name:str):
 	await interation.followup.send(file=file)
 
  
-@bot.tree.command(name="build", description="build")
+@bot.tree.command(name="build", description="get (champion) build from OP.GG")
 @app_commands.describe(role = "roles")
 @app_commands.choices(role = [
 	discord.app_commands.Choice(name='top', value=1),
@@ -231,7 +231,7 @@ async def self(interation: discord.Integration, champion:str, role: discord.app_
 	file = discord.File('screenshot.png', filename='champion.png')
 	await interation.followup.send(file=file)
 
-@bot.tree.command(name="probuild", description="probuild")
+@bot.tree.command(name="probuild", description="get (champion) build from probuild")
 @app_commands.describe(role = "roles")
 @app_commands.choices(role = [
     discord.app_commands.Choice(name='top', value=1),
@@ -253,7 +253,7 @@ async def self(interation: discord.Integration, champion:str, role: discord.app_
     await interation.followup.send(file=file)
     
 
-@bot.tree.command(name="anime", description="search anime")
+@bot.tree.command(name="anime", description="get anime\'s release date")
 async def self(interation: discord.Integration, name:str):
     await interation.response.defer()
     screenshot.screenshot_anime(name.split())
@@ -271,7 +271,7 @@ async def self(interation: discord.Integration):
         await interation.response.send_message('Starting a new game of Hangman! The word has {} letters.'.format(len(HangmanGame.games[interation.channel.id].word)))
         await HangmanGame.games[interation.channel.id].start_game()
 
-@bot.tree.command(name="g", description="guess hangman")
+@bot.tree.command(name="g", description="guess a word or character in Hangman")
 async def self(interation: discord.Integration, guess:str):
     await interation.response.defer()
     if interation.channel.id not in HangmanGame.games:
@@ -291,7 +291,7 @@ async def self(interation: discord.Integration, guess:str):
     await interation.followup.send(f'{interation.user.name} guesses **{guess}**')
     await HangmanGame.games[interation.channel.id].guess(guess)
   
-@bot.tree.command(name="quit", description="quit game")
+@bot.tree.command(name="quit", description="quit a game")
 @app_commands.checks.has_role('我在搞')
 @app_commands.describe(game = "games")
 @app_commands.choices(game = [
@@ -307,7 +307,7 @@ async def self(interation: discord.Integration, game:discord.app_commands.Choice
         await interation.response.send_message('Blackjack ends')
 #----------------------BlackJack-----------------------------------------------------------------------
 
-@bot.tree.command(name="blackjack", description="blackjack")
+@bot.tree.command(name="blackjack", description="play blackjack")
 async def self(interation: discord.Integration):
 	data = pd.read_csv('credit.csv')
 	data = data.set_index('ID')
@@ -353,7 +353,7 @@ async def self(interation: discord.Integration):
 	del BlackjackGame.games[interation.channel.id]
         
 
-@bot.tree.command(name="credit", description="see credit")
+@bot.tree.command(name="credit", description="see everyone\'s credits")
 async def self(interation: discord.Integration):
 	data = pd.read_csv('credit.csv')
 	data = data.set_index('ID')
