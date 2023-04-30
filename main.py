@@ -99,9 +99,9 @@ async def on_message(message):
     if message.channel.name == 'doraemon':
         role = discord.utils.find(lambda r: r.name == '我在搞',
                             message.guild.roles)
-    if role not in message.author.roles:
-        await message.delete()
-        return
+        if role not in message.author.roles:
+            await message.delete()
+            return
     
     curseWord = ['fk', 'fuck', 'tf', 'mom', 'nmsl', 'bitch', 'pussy' , 'mother', 'shit']
     
@@ -191,6 +191,7 @@ async def self(interation: discord.Integration):
 		player.remove(interation.user.id)
 	player = ['<@'+str(x)+'>' for x in player]
 	await interation.response.send_message('who wants to be carried '+" ".join(player))
+        
 @bot.command(name='clear', aliases=["purge"])
 @commands.has_role('我在搞')
 async def clear(message, limit=1):
