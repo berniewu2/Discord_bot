@@ -29,7 +29,7 @@ async def on_ready():
 
 
 target_meassage_id = 1085077296555249684
-
+'''
 
 @bot.event
 async def on_command_error(message, error):
@@ -45,7 +45,7 @@ async def on_command_error(message, error):
     else:
         await message.channel.send(f'Error {error}')
         pass
-
+'''
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
@@ -364,7 +364,7 @@ async def self(interation: discord.Integration):
 	result += "```"
 	await interation.response.send_message(result)
 
-@bot.tree.command(name="test", description="test")
+@bot.tree.command(name="podcast", description="podcast")
 @app_commands.checks.has_role('我在搞')
 async def self(interation: discord.Integration, id:str, arg:str):
     await interation.response.send_message(arg)
@@ -382,6 +382,15 @@ async def add(message, user, amount):
     data.loc[user.id].values[0] += int(amount)
     data.to_csv('credit.csv')
     await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
+
+
+@bot.command()
+@commands.has_role('我在搞')
+async def test(message, id):
+    if message.message.attachments:
+        channel = discord.utils.find(lambda r: r.id == int(id),
+                            message.guild.text_channels)
+        await channel.send(message.message.attachments[0])
 
 bot.run(TOKEN)
 
