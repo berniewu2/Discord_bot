@@ -387,7 +387,7 @@ async def add(message, user, amount):
 @bot.command()
 @commands.has_role('我在搞')
 async def test(message, id):
-    file = discord.File('ayame_image\\ayame2.jpg', filename='ayame.jpg')
+    file = discord.File('ayame_image/ayame2.jpg', filename='ayame.jpg')
     channel = discord.utils.find(lambda r: r.id == int(id),
                             message.guild.text_channels)
     await channel.send(file=file)
