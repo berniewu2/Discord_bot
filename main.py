@@ -344,7 +344,7 @@ async def self(interation: discord.Integration):
 	await BlackjackGame.games[interation.channel.id].start_game()
 	result, no_one_win = await BlackjackGame.games[interation.channel.id].end()
 	if not no_one_win:
-		end = discord.File('ayame_image\\ayame_ya.jpg', filename='ya.jpg')
+		end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
 		await interation.channel.send(file = end)
 	else:
 		end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
