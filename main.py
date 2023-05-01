@@ -29,7 +29,7 @@ async def on_ready():
 
 
 target_meassage_id = 1085077296555249684
-'''
+
 
 @bot.event
 async def on_command_error(message, error):
@@ -45,7 +45,7 @@ async def on_command_error(message, error):
     else:
         await message.channel.send(f'Error {error}')
         pass
-'''
+
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
@@ -344,7 +344,7 @@ async def self(interation: discord.Integration):
 	await BlackjackGame.games[interation.channel.id].start_game()
 	result, no_one_win = await BlackjackGame.games[interation.channel.id].end()
 	if not no_one_win:
-		end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
+		end = discord.File('ayame_image\\ayame_ya.jpg', filename='ya.jpg')
 		await interation.channel.send(file = end)
 	else:
 		end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
@@ -387,10 +387,10 @@ async def add(message, user, amount):
 @bot.command()
 @commands.has_role('我在搞')
 async def test(message, id):
-    if message.message.attachments:
-        channel = discord.utils.find(lambda r: r.id == int(id),
+    file = discord.File('ayame_image\\ayame2.jpg', filename='ayame.jpg')
+    channel = discord.utils.find(lambda r: r.id == int(id),
                             message.guild.text_channels)
-        await channel.send(message.message.attachments[0])
+    await channel.send(file=file)
 
 bot.run(TOKEN)
 
