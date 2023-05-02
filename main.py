@@ -141,7 +141,7 @@ async def self(interation: discord.Integration):
 	await interation.response.send_message(embed=embed)
 
 
-@bot.tree.command(name="help", description="show all help")
+@bot.tree.command(name="help", description="show all commands")
 async def self(interation: discord.Integration):
 	embed = discord.Embed(
         title='百鬼あやめです',
