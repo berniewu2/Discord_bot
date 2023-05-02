@@ -76,7 +76,7 @@ async def on_raw_reaction_remove(payload):
         return
     guild = bot.get_guild(payload.guild_id)
     member = guild.get_member(payload.user_id)
-    
+
     if payload.emoji.name == '👍':
         role = discord.utils.get(guild.roles, name='tits licker')
         await member.remove_roles(role)
@@ -84,6 +84,11 @@ async def on_raw_reaction_remove(payload):
         role = discord.utils.get(guild.roles, name='cock sucker')
         await member.remove_roles(role)
 
+class curse_buttom(discord.ui.View):
+    def __init__(self, message:str):
+        super().__init__()
+        self.message = message
+        self.add_item(discord.ui.Button(label="Yes",style=discord.ButtonStyle.link, url='https://www.youtube.com/@NakiriAyame?sub_confirmation=1'))
 
 @bot.event
 async def on_message(message):
@@ -95,28 +100,29 @@ async def on_message(message):
         msg_content = message.content[:front] + message.content[end+1:].lower()
     except ValueError:
         msg_content = message.content.lower()
-        
+
     if message.channel.name == 'doraemon':
         role = discord.utils.find(lambda r: r.name == '我在搞',
                             message.guild.roles)
         if role not in message.author.roles:
             await message.delete()
             return
-    
+        
     curseWord = ['fk', 'fuck', 'tf', 'mom', 'nmsl', 'bitch', 'pussy' , 'mother', 'shit']
-    
+
     if any(word in msg_content for word in curseWord):
         await message.delete()
-        writer = str(message.author).split("#")[0]
-        await message.channel.send(f'{writer} だめですよ')
-        return
-    
+        # writer = str(message.author).split("#")[0]
+        # await message.channel.send(f'{writer} だめですよ')
+        view = curse_buttom(message=message)
+        await message.channel.send("do u want to say that?")
+        await message.channel.send(view=view)
+
     role = discord.utils.find(lambda r: r.name == 'cock sucker',message.guild.roles)
     if role in message.author.roles:
         await message.add_reaction('\U0001F90F')
-        
-    if '!!' not in message.content:
-        await bot.process_commands(message)
+
+    await bot.process_commands(message)
 
 @bot.tree.command(name="oppai", description="晉見おっぱい教主")
 async def self(interation: discord.Integration):
@@ -172,7 +178,7 @@ async def self(interation: discord.Integration):
 	embed.add_field(name='/quit (game)', value='quit that game',inline=False)
 	embed.add_field(name='/bj', value='use **H**it, **S**tand, or 🃏(split) to play blackjack',inline=False)
 	embed.add_field(name='/credit', value='see everyone\'s credits', inline=False)
-  
+
 	await interation.response.send_message(embed=embed)
 
 
@@ -191,17 +197,17 @@ async def self(interation: discord.Integration):
 		player.remove(interation.user.id)
 	player = ['<@'+str(x)+'>' for x in player]
 	await interation.response.send_message('who wants to be carried '+" ".join(player))
-        
+
 @bot.command(name='clear', aliases=["purge"])
 @commands.has_role('我在搞')
-async def clear(message, limit=1):
+async def clear(message, limit:int =1):
 	await message.channel.purge(limit = limit + 1)
 
 
 @bot.command()
 @commands.has_role('我在搞')
-async def delete(message, arg):
-	msg = await message.channel.fetch_message(arg)
+async def delete(message, arg:str):
+	msg = await message.channel.fetch_message(int(arg))
 	await msg.delete()
 	await message.message.delete()
 
@@ -214,7 +220,7 @@ async def self(interation: discord.Integration, name:str):
 	file = discord.File('screenshot.png', filename='champion.png')
 	await interation.followup.send(file=file)
 
- 
+
 @bot.tree.command(name="build", description="get (champion) build from OP.GG")
 @app_commands.describe(role = "roles")
 @app_commands.choices(role = [
@@ -251,7 +257,7 @@ async def self(interation: discord.Integration, champion:str, role: discord.app_
     screenshot.screenshot_pro(champion, role.name, lpl)
     file = discord.File('screenshot.png', filename='champion.png')
     await interation.followup.send(file=file)
-    
+
 
 @bot.tree.command(name="anime", description="get anime\'s release date")
 async def self(interation: discord.Integration, name:str):
@@ -290,7 +296,7 @@ async def self(interation: discord.Integration, guess:str):
     guess = guess.lower()
     await interation.followup.send(f'{interation.user.name} guesses **{guess}**')
     await HangmanGame.games[interation.channel.id].guess(guess)
-  
+
 @bot.tree.command(name="quit", description="quit a game")
 @app_commands.checks.has_role('我在搞')
 @app_commands.describe(game = "games")
@@ -351,7 +357,7 @@ async def self(interation: discord.Integration):
 		await interation.channel.send(file = end)
 	await interation.channel.send(result)
 	del BlackjackGame.games[interation.channel.id]
-        
+
 
 @bot.tree.command(name="credit", description="see everyone\'s credits")
 async def self(interation: discord.Integration):
