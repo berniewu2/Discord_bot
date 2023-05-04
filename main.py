@@ -118,7 +118,7 @@ async def on_message(message):
         await message.channel.send(f"**{writer}**, do u want to say that?")
         await message.channel.send(view=view)
 
-    role = discord.utils.find(lambda r: r.id == '1085070784843751454',message.guild.roles)
+    role = discord.utils.find(lambda r: r.id == 1085070784843751454,message.guild.roles)
     if role in message.author.roles:
         await message.add_reaction('\U0001F90F')
 
