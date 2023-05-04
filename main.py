@@ -63,10 +63,10 @@ async def on_raw_reaction_add(payload):
         return
     guild = bot.get_guild(payload.guild_id)
     if payload.emoji.name == '👍':
-        role = discord.utils.get(guild.roles, name='tits licker')
+        role = discord.utils.get(guild.roles, id='1085077296555249684')
         await payload.member.add_roles(role)
     elif payload.emoji.name == '‼️':
-        role = discord.utils.get(guild.roles, name='cock sucker')
+        role = discord.utils.get(guild.roles, name='1085077296555249684')
         await payload.member.add_roles(role)
 
 
@@ -392,11 +392,9 @@ async def add(message, user, amount):
 
 @bot.command()
 @commands.has_role('我在搞')
-async def test(message, id):
-    file = discord.File('ayame_image/ayame2.jpg', filename='ayame.jpg')
-    channel = discord.utils.find(lambda r: r.id == int(id),
-                            message.guild.text_channels)
-    await channel.send(file=file)
+async def test(message, arg:str):
+    await message.channel.send(arg)
+    print(arg)
 
 bot.run(TOKEN)
 
