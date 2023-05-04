@@ -63,10 +63,10 @@ async def on_raw_reaction_add(payload):
         return
     guild = bot.get_guild(payload.guild_id)
     if payload.emoji.name == '👍':
-        role = discord.utils.get(guild.roles, id='1085071207981907969')
+        role = discord.utils.get(guild.roles, id=1085071207981907969)
         await payload.member.add_roles(role)
     elif payload.emoji.name == '‼️':
-        role = discord.utils.get(guild.roles, id='1085070784843751454')
+        role = discord.utils.get(guild.roles, id=1085070784843751454)
         await payload.member.add_roles(role)
 
 
@@ -78,10 +78,10 @@ async def on_raw_reaction_remove(payload):
     member = guild.get_member(payload.user_id)
 
     if payload.emoji.name == '👍':
-        role = discord.utils.get(guild.roles, name='tits licker')
+        role = discord.utils.get(guild.roles, id=1085071207981907969)
         await member.remove_roles(role)
     elif payload.emoji.name == '‼️':
-        role = discord.utils.get(guild.roles, name='cock sucker')
+        role = discord.utils.get(guild.roles, id=1085070784843751454)
         await member.remove_roles(role)
 
 class curse_buttom(discord.ui.View):
