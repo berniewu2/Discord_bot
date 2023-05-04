@@ -63,10 +63,10 @@ async def on_raw_reaction_add(payload):
         return
     guild = bot.get_guild(payload.guild_id)
     if payload.emoji.name == '👍':
-        role = discord.utils.get(guild.roles, id='1085077296555249684')
+        role = discord.utils.get(guild.roles, id='1085071207981907969')
         await payload.member.add_roles(role)
     elif payload.emoji.name == '‼️':
-        role = discord.utils.get(guild.roles, name='1085077296555249684')
+        role = discord.utils.get(guild.roles, id='1085070784843751454')
         await payload.member.add_roles(role)
 
 
@@ -118,7 +118,7 @@ async def on_message(message):
         await message.channel.send(f"**{writer}**, do u want to say that?")
         await message.channel.send(view=view)
 
-    role = discord.utils.find(lambda r: r.name == 'cock sucker',message.guild.roles)
+    role = discord.utils.find(lambda r: r.id == '1085070784843751454',message.guild.roles)
     if role in message.author.roles:
         await message.add_reaction('\U0001F90F')
 
