@@ -115,7 +115,7 @@ async def on_message(message):
         writer = str(message.author).split("#")[0]
         # await message.channel.send(f'{writer} だめですよ')
         view = curse_buttom(message=message)
-        await message.channel.send(f"**{writer}**, do u want to say that?")
+        await message.channel.send(f"**{writer}**, do u want to say ||{message.content}||?")
         await message.channel.send(view=view)
 
     role = discord.utils.find(lambda r: r.id == 1085070784843751454,message.guild.roles)
