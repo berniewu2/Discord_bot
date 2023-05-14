@@ -163,7 +163,7 @@ async def self(interation: discord.Integration):
     	'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
     )
     embed.add_field(name='!info',value='infomation about this server',inline=False)
-    embed.add_field(name='/chat_gpt', value='chat with GPT', inline=False)
+    embed.add_field(name='/chat', value='chat with あやめ', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/oppai', value='晉見おっぱい教主', inline=False)
     embed.add_field(name='/断る', value='だが断る！', inline=False)
@@ -391,7 +391,7 @@ async def add(message, user, amount):
     data.to_csv('credit.csv')
     await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
 
-@bot.tree.command(name="chat_gpt", description="chat with gpt")
+@bot.tree.command(name="chat", description="chat with あやめ")
 async def self(interation: discord.Integration, *, message:str):
     await interation.response.defer()
     response = openai.ChatCompletion.create(
