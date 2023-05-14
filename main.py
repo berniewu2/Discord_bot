@@ -408,6 +408,13 @@ async def self(interation: discord.Integration, *, message:str):
 
 @bot.command()
 @commands.has_role('我在搞')
+async def sendfile(message, id:str, file:str):
+    channel = discord.utils.find(lambda r: r.id == int(id),message.guild.text_channels)
+    file = discord.File(f'ayame_image/{file}.jpg', filename='ayame.jpg')
+    await channel.send(file=file)
+
+@bot.command()
+@commands.has_role('我在搞')
 async def test(message, arg:str):
     await message.channel.send(arg)
     print(arg)
