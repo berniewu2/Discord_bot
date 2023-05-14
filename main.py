@@ -50,7 +50,7 @@ async def on_command_error(message, error):
         pass
 
 
-'''@bot.tree.error
+@bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
     if isinstance(error, app_commands.errors.MissingRole):
         await interaction.response.send_message("権限がありません")
@@ -59,7 +59,7 @@ async def on_app_command_error(interaction: discord.Interaction, error: discord.
         if not interaction.response.is_done:
             await interaction.response.send_message(f'Error {error}')
             pass
-'''
+
 @bot.event
 async def on_raw_reaction_add(payload):
     if payload.message_id != target_meassage_id:
@@ -152,37 +152,36 @@ async def self(interation: discord.Integration):
 
 @bot.tree.command(name="help", description="show all commands")
 async def self(interation: discord.Integration):
-	embed = discord.Embed(
+    embed = discord.Embed(
         title='百鬼あやめです',
-		description=
-		'Please subscribe あやめ on YouTube\n https://www.youtube.com/@NakiriAyame',
-		color=discord.Colour.red())
-	embed.set_image(url='https://w0.peakpx.com/wallpaper/190/23/HD-wallpaper-anime-virtual-youtuber-hololive-nakiri-ayame.jpg')
-	embed.set_thumbnail(
-		url=
-		'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
-	)
-	embed.add_field(name='!info',
-        value='infomation about this server',
-		inline=False)
-	embed.add_field(name=' ', value=' -------------------------------------',inline=False)
-	embed.add_field(name='/oppai', value='晉見おっぱい教主', inline=False)
-	embed.add_field(name='/断る', value='だが断る！', inline=False)
-	embed.add_field(name='/pray', value='pray everyday!!!', inline=False)
-	embed.add_field(name=' ', value=' -------------------------------------',inline=False)
-	embed.add_field(name='/lol', value='mentions league players', inline=False)
-	embed.add_field(name='/build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
-	embed.add_field(name='/probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
-	embed.add_field(name='/check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
-	embed.add_field(name=' ', value=' -------------------------------------',inline=False)
-	embed.add_field(name='/anime (anime name)', value= 'get anime\'s release date', inline=False)
-	embed.add_field(name='/hangman', value='start Hangman',inline=False)
-	embed.add_field(name='/g (word or character)', value='guess a word or character in Hangman',inline=False)
-	embed.add_field(name='/quit (game)', value='quit that game',inline=False)
-	embed.add_field(name='/bj', value='use **H**it, **S**tand, or 🃏(split) to play blackjack',inline=False)
-	embed.add_field(name='/credit', value='see everyone\'s credits', inline=False)
+        description=
+        'Please subscribe あやめ on YouTube\n https://www.youtube.com/@NakiriAyame',
+        color=discord.Colour.red())
+    embed.set_image(url='https://w0.peakpx.com/wallpaper/190/23/HD-wallpaper-anime-virtual-youtuber-hololive-nakiri-ayame.jpg')
+    embed.set_thumbnail(
+        url=
+    	'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
+    )
+    embed.add_field(name='!info',value='infomation about this server',inline=False)
+    embed.add_field(name='/chat_gpt', value='chat with GPT', inline=False)
+    embed.add_field(name=' ', value=' -------------------------------------',inline=False)
+    embed.add_field(name='/oppai', value='晉見おっぱい教主', inline=False)
+    embed.add_field(name='/断る', value='だが断る！', inline=False)
+    embed.add_field(name='/pray', value='pray everyday!!!', inline=False)
+    embed.add_field(name=' ', value=' -------------------------------------',inline=False)
+    embed.add_field(name='/lol', value='mentions league players', inline=False)
+    embed.add_field(name='/build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
+    embed.add_field(name='/probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
+    embed.add_field(name='/check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
+    embed.add_field(name=' ', value=' -------------------------------------',inline=False)
+    embed.add_field(name='/anime (anime name)', value= 'get anime\'s release date', inline=False)
+    embed.add_field(name='/hangman', value='start Hangman',inline=False)
+    embed.add_field(name='/g (word or character)', value='guess a word or character in Hangman',inline=False)
+    embed.add_field(name='/quit (game)', value='quit that game',inline=False)
+    embed.add_field(name='/bj', value='use **H**it, **S**tand, or 🃏(split) to play blackjack',inline=False)
+    embed.add_field(name='/credit', value='see everyone\'s credits', inline=False)
 
-	await interation.response.send_message(embed=embed)
+    await interation.response.send_message(embed=embed)
 
 
 @bot.tree.command(name="info", description="show info")
