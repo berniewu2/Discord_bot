@@ -8,9 +8,12 @@ import screenshot
 import HangmanGame
 import BlackjackGame
 import pandas as pd
+import openai
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
+openai.api_key = os.getenv('KEY')
+openai.api_base = 'https://api.pawan.krd/v1'
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
@@ -47,7 +50,7 @@ async def on_command_error(message, error):
         pass
 
 
-@bot.tree.error
+'''@bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
     if isinstance(error, app_commands.errors.MissingRole):
         await interaction.response.send_message("権限がありません")
@@ -56,7 +59,7 @@ async def on_app_command_error(interaction: discord.Interaction, error: discord.
         if not interaction.response.is_done:
             await interaction.response.send_message(f'Error {error}')
             pass
-
+'''
 @bot.event
 async def on_raw_reaction_add(payload):
     if payload.message_id != target_meassage_id:
@@ -389,6 +392,20 @@ async def add(message, user, amount):
     data.to_csv('credit.csv')
     await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
 
+@bot.tree.command(name="chat_gpt", description="chat with gpt")
+async def self(interation: discord.Integration, *, message:str):
+    await interation.response.defer()
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-trubo",
+        max_tokens=256,
+        messages = [{"role": "user", "content": f"{message}"}]
+    )
+    embed = discord.Embed(color = discord.Colour.red())
+    embed.set_author(name = interation.user, icon_url = interation.user.avatar)
+    embed.add_field(name=' ',value = f"{message}\n",inline=False)
+    embed.add_field(name='百鬼あやめ : ',value = f"{response['choices'][0]['message']['content']}",inline=False)
+    await interation.followup.send(embed = embed)
+    print(response)
 
 @bot.command()
 @commands.has_role('我在搞')
