@@ -416,6 +416,8 @@ async def self(interation: discord.Integration, *, message:str):
 async def self(interation: discord.Integration, message:str, output:int = 1):
     await interation.response.defer()
     # Replace with your Bing API key
+    if output > 5:
+        output = 3
     api_key = os.getenv('BING_KEY')
     headers = {'Ocp-Apim-Subscription-Key': api_key}
     params = {'q': message}
