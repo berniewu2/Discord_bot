@@ -400,7 +400,7 @@ async def add(message, user, amount):
 async def self(interation: discord.Integration, *, message:str):
     await interation.response.defer()
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-trubo",
+        model="gpt-3.5-turbo",
         max_tokens=256,
         messages = [{"role": "user", "content": f"{message}"}]
     )
