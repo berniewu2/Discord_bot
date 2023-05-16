@@ -168,6 +168,7 @@ async def self(interation: discord.Integration):
     )
     embed.add_field(name='!info',value='infomation about this server',inline=False)
     embed.add_field(name='/chat', value='chat with あやめ', inline=False)
+    embed.add_field(name='/search', value='search', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/oppai', value='晉見おっぱい教主', inline=False)
     embed.add_field(name='/断る', value='だが断る！', inline=False)
@@ -411,7 +412,7 @@ async def self(interation: discord.Integration, *, message:str):
     print(response)
 
 
-@bot.tree.command(name="bing", description="search")
+@bot.tree.command(name="search", description="search")
 async def self(interation: discord.Integration, message:str, output:int = 1):
     await interation.response.defer()
     # Replace with your Bing API key
