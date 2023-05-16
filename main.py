@@ -406,7 +406,8 @@ async def self(interation: discord.Integration, *, message:str):
     )
     embed = discord.Embed(color = discord.Colour.red())
     embed.set_author(name = interation.user, icon_url = interation.user.avatar)
-    embed.add_field(name=' ',value = f"{message}\n",inline=False)
+    if not len(message) >= 100:
+        embed.add_field(name=' ',value = f"{message}\n",inline=False)
     embed.add_field(name='百鬼あやめ : ',value = f"{response['choices'][0]['message']['content']}",inline=False)
     await interation.followup.send(embed = embed)
     print(response)
