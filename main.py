@@ -9,6 +9,7 @@ import HangmanGame
 import BlackjackGame
 import pandas as pd
 import openai
+import requests
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -103,6 +104,9 @@ async def on_message(message):
         msg_content = message.content[:front] + message.content[end+1:].lower()
     except ValueError:
         msg_content = message.content.lower()
+
+    if bot.user.mentioned_in(message):
+        await message.channel.send('どのようにお手伝いしましょうか')
 
     if message.channel.name == 'doraemon':
         role = discord.utils.find(lambda r: r.name == '我在搞',
@@ -405,6 +409,30 @@ async def self(interation: discord.Integration, *, message:str):
     embed.add_field(name='百鬼あやめ : ',value = f"{response['choices'][0]['message']['content']}",inline=False)
     await interation.followup.send(embed = embed)
     print(response)
+
+
+@bot.tree.command(name="bing", description="search")
+async def self(interation: discord.Integration, message:str, output:int = 1):
+    await interation.response.defer()
+    # Replace with your Bing API key
+    api_key = os.getenv('BING_KEY')
+    headers = {'Ocp-Apim-Subscription-Key': api_key}
+    params = {'q': message}
+    response = requests.get('https://api.bing.microsoft.com/v7.0/search', headers=headers, params=params)
+    data = response.json()
+    embed = discord.Embed(color = discord.Colour.red())
+    embed.set_author(name = interation.user, icon_url = interation.user.avatar)
+    embed.add_field(name='Search results for ',value = f"{message}\n",inline=False)
+    print(data)
+    await interation.followup.send(embed = embed)
+    try:
+        results = data['webPages']['value'][:output]
+        for result in results:
+            title = result['name']
+            url = result['url']
+            await interation.channel.send(f'{title}\n{url}')
+    except KeyError:
+        await interation.channel.send('Sorry, no results were found.')
 
 @bot.command()
 @commands.has_role('我在搞')
