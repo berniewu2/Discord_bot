@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import asyncio
 from dotenv import load_dotenv
@@ -405,7 +405,7 @@ async def self(interation: discord.Integration, *, message:str):
     await interation.response.defer()
     global last_message_time
     current_time = datetime.now()
-    if current_time - last_message_time > datetime.timedelta(minutes=5):
+    if current_time - last_message_time > timedelta(minutes=5):
         conversation_history.clear()
     conversation_history.append(f"User: {message}")
     last_message_time = current_time
