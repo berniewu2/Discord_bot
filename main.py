@@ -1,5 +1,4 @@
 from datetime import datetime
-import datetime
 import os
 import asyncio
 from dotenv import load_dotenv
@@ -412,7 +411,7 @@ async def self(interation: discord.Integration, *, message:str):
     last_message_time = current_time
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        max_tokens=3000,
+        max_tokens=1000,
         messages = [{"role": "user", "content": f"{message}"}]
     )
     conversation_history.append(f"AI: {response['choices'][0]['message']['content']}")
