@@ -1,3 +1,4 @@
+import datetime
 import os
 import asyncio
 from dotenv import load_dotenv
@@ -396,14 +397,24 @@ async def add(message, user, amount):
     data.to_csv('credit.csv')
     await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
 
+
+conversation_history = []
+last_message_time = datetime.now()
+
 @bot.tree.command(name="chat", description="chat with あやめ")
 async def self(interation: discord.Integration, *, message:str):
     await interation.response.defer()
+    current_time = datetime.now()
+    if current_time - last_message_time > datetime.timedelta(minutes=5):
+        conversation_history.clear()
+    conversation_history.append(f"User: {message}")
+    last_message_time = current_time
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         max_tokens=3000,
         messages = [{"role": "user", "content": f"{message}"}]
     )
+    conversation_history.append(f"AI: {response['choices'][0]['message']['content']}")
     embed = discord.Embed(color = discord.Colour.red())
     embed.set_author(name = interation.user, icon_url = interation.user.avatar)
     if not len(message) >= 100:
