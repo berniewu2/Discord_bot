@@ -424,7 +424,7 @@ async def self(interation: discord.Integration, *, message:str):
     answer = response['choices'][0]['message']['content']
     if len(answer) > 1000:
         answer = answer[:999] 
-    embed.add_field(name='百鬼あやめ : ',value = f"{answer}.",inline=False)
+    embed.add_field(name='百鬼あやめ : ',value = f"{answer}",inline=False)
     await interation.followup.send(embed = embed)
     print(response)
 
