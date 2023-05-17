@@ -412,7 +412,7 @@ async def self(interation: discord.Integration, *, message:str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         max_tokens=1000,
-        messages = [{"role": "user", "content": f"{message}"}]
+        messages = [{"role": "user", "content": f"{conversation_history}"}]
     )
     conversation_history.append(f"AI: {response['choices'][0]['message']['content']}")
     embed = discord.Embed(color = discord.Colour.red())
