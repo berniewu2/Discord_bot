@@ -403,6 +403,7 @@ async def add(message, user, amount):
 @bot.tree.command(name="chat", description="chat with あやめ")
 async def self(interation: discord.Integration, *, message:str):
     await interation.response.defer()
+    global last_message_time
     current_time = datetime.now()
     if current_time - last_message_time > datetime.timedelta(minutes=5):
         conversation_history.clear()
