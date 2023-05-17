@@ -421,7 +421,10 @@ async def self(interation: discord.Integration, *, message:str):
     embed.set_author(name = interation.user, icon_url = interation.user.avatar)
     if not len(message) >= 100:
         embed.add_field(name=' ',value = f"{message}\n",inline=False)
-    embed.add_field(name='百鬼あやめ : ',value = f"{response['choices'][0]['message']['content']}",inline=False)
+    answer = response['choices'][0]['message']['content']
+    if len(answer) > 1000:
+        answer = answer[:999] 
+    embed.add_field(name='百鬼あやめ : ',value = f"{answer}.",inline=False)
     await interation.followup.send(embed = embed)
     print(response)
 
