@@ -53,7 +53,7 @@ async def on_command_error(message, error):
         pass
 
 
-@bot.tree.error
+'''@bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
     if isinstance(error, app_commands.errors.MissingRole):
         await interaction.response.send_message("権限がありません")
@@ -61,7 +61,7 @@ async def on_app_command_error(interaction: discord.Interaction, error: discord.
         print (error)
         if not interaction.response.is_done:
             await interaction.response.send_message(f'Error {error}')
-            pass
+            pass'''
 
 @bot.event
 async def on_raw_reaction_add(payload):
