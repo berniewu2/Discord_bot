@@ -34,7 +34,8 @@ async def on_ready():
 
 
 target_meassage_id = 1085077296555249684
-
+conversation_history = []
+last_message_time = datetime.now()
 
 @bot.event
 async def on_command_error(message, error):
@@ -398,8 +399,6 @@ async def add(message, user, amount):
     await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
 
 
-conversation_history = []
-last_message_time = datetime.now()
 
 @bot.tree.command(name="chat", description="chat with あやめ")
 async def self(interation: discord.Integration, *, message:str):
