@@ -408,6 +408,7 @@ async def self(interation: discord.Integration, *, message:str):
     if current_time - last_message_time > timedelta(minutes=5):
         conversation_history.clear()
     conversation_history.append(f"User: {message}")
+    print(conversation_history)
     last_message_time = current_time
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
