@@ -412,7 +412,7 @@ async def self(interation: discord.Integration, *, message:str):
     last_message_time = current_time
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        max_tokens=1000,
+        max_tokens=500,
         messages = [{"role": "user", "content": f"{conversation_history}"}]
     )
     conversation_history.append(f"{response['choices'][0]['message']['content']}")
