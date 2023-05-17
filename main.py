@@ -416,6 +416,7 @@ async def self(interation: discord.Integration, *, message:str):
         messages = [{"role": "user", "content": f"{conversation_history}"}]
     )
     conversation_history.append(f"{response['choices'][0]['message']['content']}")
+    print(conversation_history)
     embed = discord.Embed(color = discord.Colour.red())
     embed.set_author(name = interation.user, icon_url = interation.user.avatar)
     if not len(message) >= 100:
