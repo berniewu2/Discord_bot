@@ -4,7 +4,7 @@ import asyncio
 games = {}
 
 class Blackjack:
-    def __init__(self, channel, bot, five, ten):
+    def __init__(self, channel, bot, five:list, ten:list):
         self.channel = channel
         self.player = bot
         self.deck = self.create_deck()

@@ -12,7 +12,7 @@ options = Options()
 options.headless = True
 
 
-def screenshot_name(name):
+def screenshot_name(name:str):
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
@@ -27,7 +27,7 @@ def screenshot_name(name):
     return
 
 
-def screenshot(champion, role):
+def screenshot(champion:str, role:str):
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
@@ -42,7 +42,7 @@ def screenshot(champion, role):
     print("end...")
     return
 
-def screenshot_pro(champion, role, lpl):
+def screenshot_pro(champion:str, role:str, lpl):
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     if lpl:
@@ -57,7 +57,7 @@ def screenshot_pro(champion, role, lpl):
     return
 
 
-def screenshot_anime(name):
+def screenshot_anime(name:str):
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     anime = '%20'.join(name)
