@@ -53,7 +53,7 @@ async def on_command_error(message, error):
         pass
 
 
-'''@bot.tree.error
+@bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
     if isinstance(error, app_commands.errors.MissingRole):
         await interaction.response.send_message("権限がありません")
@@ -61,7 +61,7 @@ async def on_app_command_error(interaction: discord.Interaction, error: discord.
         print (error)
         if not interaction.response.is_done:
             await interaction.response.send_message(f'Error {error}')
-            pass'''
+            pass
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -108,7 +108,25 @@ async def on_message(message):
         msg_content = message.content.lower()
 
     if bot.user.mentioned_in(message):
-        await message.channel.send('どのようにお手伝いしましょうか')
+        global last_message_time
+        current_time = datetime.now()
+        if current_time - last_message_time > timedelta(minutes=5):
+            conversation_history.clear()
+        conversation_history.append(f"User: {message}")
+        print(conversation_history)
+        last_message_time = current_time
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            max_tokens=256,
+            messages = [{"role": "user", "content": f"{conversation_history}"}]
+        )
+        conversation_history.append(f"{response['choices'][0]['message']['content']}")
+        print(conversation_history)
+        answer = response['choices'][0]['message']['content']
+        if len(answer) > 1000:
+            answer = answer[:999] 
+        await message.channel.send(answer)
+        print(response)
 
     if message.channel.name == 'doraemon':
         role = discord.utils.find(lambda r: r.name == '我在搞',
@@ -169,7 +187,6 @@ async def self(interation: discord.Integration):
     	'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
     )
     embed.add_field(name='!info',value='infomation about this server',inline=False)
-    embed.add_field(name='/chat', value='chat with あやめ', inline=False)
     embed.add_field(name='/search', value='search', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/oppai', value='晉見おっぱい教主', inline=False)
@@ -398,35 +415,6 @@ async def add(message, user, amount):
     data.to_csv('credit.csv')
     await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
 
-
-
-@bot.tree.command(name="chat", description="chat with あやめ")
-async def self(interation: discord.Integration, *, message:str):
-    await interation.response.defer()
-    global last_message_time
-    current_time = datetime.now()
-    if current_time - last_message_time > timedelta(minutes=5):
-        conversation_history.clear()
-    conversation_history.append(f"User: {message}")
-    print(conversation_history)
-    last_message_time = current_time
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        max_tokens=256,
-        messages = [{"role": "user", "content": f"{conversation_history}"}]
-    )
-    conversation_history.append(f"{response['choices'][0]['message']['content']}")
-    print(conversation_history)
-    embed = discord.Embed(color = discord.Colour.red())
-    embed.set_author(name = interation.user, icon_url = interation.user.avatar)
-    if not len(message) >= 100:
-        embed.add_field(name=' ',value = f"{message}\n",inline=False)
-    answer = response['choices'][0]['message']['content']
-    if len(answer) > 1000:
-        answer = answer[:999] 
-    embed.add_field(name='百鬼あやめ : ',value = f"{answer}",inline=False)
-    await interation.followup.send(embed = embed)
-    print(response)
 
 
 @bot.tree.command(name="search", description="search")
