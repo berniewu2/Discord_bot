@@ -112,7 +112,10 @@ async def on_message(message):
         current_time = datetime.now()
         if current_time - last_message_time > timedelta(minutes=5):
             conversation_history.clear()
-        conversation_history.append(f"User: {message.content[23:]}")
+        front = message.content.index('<:')
+        end = message.content.index('>')
+        msg_content = message.content[:front] + message.content[end+1:]
+        conversation_history.append(f"User: {message.content[22:]}")
         print(conversation_history)
         last_message_time = current_time
         response = openai.ChatCompletion.create(
