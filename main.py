@@ -144,7 +144,6 @@ async def on_message(message):
     if any(word in msg_content for word in curseWord):
         await message.delete()
         writer = str(message.author).split("#")[0]
-        # await message.channel.send(f'{writer} だめですよ')
         view = curse_buttom(message=message)
         await message.channel.send(f"**{writer}**,\ndo u actually want to say ||{message.content}||?")
         await message.channel.send(view=view)
@@ -314,15 +313,11 @@ async def self(interation: discord.Integration, guess:str):
         await interation.followup.send('START FIRST')
         return
     if (len(guess)>len(HangmanGame.games[interation.channel.id].word)):
-        await interation.followup.send('Didn\'t ur parents teach u how to play hangman?')
+        await interation.followup.send('長すぎ')
         return
     if not guess.isalpha():
-        await interation.followup.send('Didn\'t ur parents teach u how to play hangman?')
+        await interation.followup.send('英語だけお願いします')
         return
-    if len(guess)==1:
-        if not guess.isalpha():
-            await interation.followup.send('Didn\'t ur parents teach u how to play hangman?')
-            return
     guess = guess.lower()
     await interation.followup.send(f'{interation.user.name} guesses **{guess}**')
     await HangmanGame.games[interation.channel.id].guess(guess)
