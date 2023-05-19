@@ -13,9 +13,9 @@ import openai
 import requests
 
 load_dotenv()
-TOKEN = os.getenv('TOKEN')
-openai.api_key = os.getenv('KEY')
-openai.api_base = 'https://api.pawan.krd/v1'
+TOKEN = os.getenv('BOT_TOKEN')
+openai.api_key = os.getenv('API_KEY')
+openai.api_base = os.getenv('API_BASE')
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
