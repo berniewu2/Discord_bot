@@ -1,5 +1,4 @@
 from selenium import webdriver
-import time
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,12 +8,13 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 options = Options()
+options.add_argument('--no-sandbox')
 options.headless = True
 
 
 def screenshot_name(name:str):
 
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options) 
 
     driver.get(f'https://www.op.gg/summoners/na/{name}')
 
