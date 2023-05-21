@@ -116,7 +116,7 @@ async def on_message(message):
         front = message.content.index('<')
         end = message.content.index('>')
         msg_content = message.content[:front] + message.content[end+1:]
-        conversation_history.append(f"User: {msg_content}")
+        conversation_history.append(f"{message.author.name}: {msg_content}")
         print(conversation_history)
         last_message_time = current_time
         response = openai.ChatCompletion.create(
