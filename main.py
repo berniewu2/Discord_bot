@@ -123,7 +123,7 @@ async def on_message(message):
             model="gpt-3.5-turbo",
             max_tokens=256,
             messages = [
-                {"role": "system", "content": f"you are 百鬼あやめ, a helpful assistant. Now is {datetime.now().isoformat(' ', 'seconds')}"},
+                {"role": "system", "content": f"you are 百鬼あやめ, admin of this discord server. Now is {datetime.now().isoformat(' ', 'seconds')}"},
                 {"role": "user", "content": f"{conversation_history}"}]
         )
         conversation_history.append(f"{response['choices'][0]['message']['content']}")
