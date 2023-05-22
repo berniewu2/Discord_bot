@@ -191,7 +191,7 @@ async def self(interation: discord.Integration):
         url=
     	'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
     )
-    embed.add_field(name='!info',value='infomation about this server',inline=False)
+    embed.add_field(name='/info',value='infomation about this server',inline=False)
     embed.add_field(name='/search', value='search', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/oppai', value='晉見おっぱい教主', inline=False)
