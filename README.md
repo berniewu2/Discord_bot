@@ -17,7 +17,7 @@
 BOT_TOKEN =     #discord bot token
 API_BASE =      #openai api base
 API_KEY =       #openai api
-BING_KEY =      #bing ai api
+BING_KEY =      #bing search api
 ```
 
 3. Run the program - `python3 main.py` 
