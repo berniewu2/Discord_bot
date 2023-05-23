@@ -1,0 +1,8 @@
+python-dotenv
+discord
+datetime
+pandas
+openai
+requests
+selenium
+webdriver_manager
