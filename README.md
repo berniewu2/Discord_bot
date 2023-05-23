@@ -12,6 +12,7 @@
 
 >修改 main.py 檔案, 創建credit.csv 和 .env
 
+`vim .env`
 ```python
 BOT_TOKEN =
 API_BASE = 
