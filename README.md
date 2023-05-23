@@ -19,5 +19,10 @@ API_BASE =
 API_KEY = 
 BING_KEY =
 ```
+
+3. Run the program - `python3 main.py` 
+
+>執行程式 `python3 main.py` 
+
 ### Resource
 [Ho to Get Bot Token](https://www.writebots.com/discord-bot-token/)
