@@ -14,10 +14,10 @@
 
 `vim .env`
 ```python
-BOT_TOKEN =
-API_BASE = 
-API_KEY = 
-BING_KEY =
+BOT_TOKEN =     #discord bot token
+API_BASE =      #openai api base
+API_KEY =       #openai api
+BING_KEY =      #bing ai api
 ```
 
 3. Run the program - `python3 main.py` 
