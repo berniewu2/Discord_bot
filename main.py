@@ -31,6 +31,12 @@ async def on_ready():
     except Exception as e:
         print(e)
 
+@bot.event
+async def setup_hook():
+    cogslist =["cogs.admin_commands"]
+    for ext in cogslist:
+        await bot.load_extension(ext)
+
 
 
 target_meassage_id = 1085077296555249684
@@ -123,7 +129,7 @@ async def on_message(message):
             model="gpt-3.5-turbo",
             max_tokens=256,
             messages = [
-                {"role": "system", "content": f"you are 百鬼あやめ, admin of this discord server. Now is {datetime.now().isoformat(' ', 'seconds')}"},
+                {"role": "system", "content": f"You are 百鬼あやめ, admin of this discord server. Now is {datetime.now().isoformat(' ', 'seconds')}"},
                 {"role": "user", "content": f"{conversation_history}"}]
         )
         conversation_history.append(f"{response['choices'][0]['message']['content']}")
@@ -159,7 +165,7 @@ async def on_message(message):
 @bot.tree.command(name="oppai", description="晉見おっぱい教主")
 async def self(interation: discord.Integration):
 	embed = discord.Embed(
-		color=discord.Colour.red())
+		color=discord.Colour.from_rgb(247, 166, 209))
 	embed.set_image(url='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aa5ac6d0-9bc7-40fd-ba34-b9c36388bbd0/d8echfc-f06f9444-90d8-48b5-8c22-9fc2dae773fc.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhNWFjNmQwLTliYzctNDBmZC1iYTM0LWI5YzM2Mzg4YmJkMFwvZDhlY2hmYy1mMDZmOTQ0NC05MGQ4LTQ4YjUtOGMyMi05ZmMyZGFlNzczZmMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Ug_91_nIwEJuv0VZhZkU8eJudFS5Daj3ajnyHKqXhmw')
 	await interation.response.send_message(embed=embed)
 
@@ -184,7 +190,7 @@ async def self(interation: discord.Integration):
     embed = discord.Embed(
         title='百鬼あやめです',
         description=
-        'Please subscribe あやめ on YouTube\n https://www.youtube.com/@NakiriAyame',
+        'Mention あやめ to chat \n https://www.youtube.com/@NakiriAyame',
         color=discord.Colour.red())
     embed.set_image(url='https://w0.peakpx.com/wallpaper/190/23/HD-wallpaper-anime-virtual-youtuber-hololive-nakiri-ayame.jpg')
     embed.set_thumbnail(
@@ -229,18 +235,7 @@ async def self(interation: discord.Integration):
 	player = ['<@'+str(x)+'>' for x in player]
 	await interation.response.send_message('who wants to be carried '+" ".join(player))
 
-@bot.command(name='clear', aliases=["purge"])
-@commands.has_role('我在搞')
-async def clear(message, limit:int =1):
-	await message.channel.purge(limit = limit + 1)
 
-
-@bot.command()
-@commands.has_role('我在搞')
-async def delete(message, arg:str):
-	msg = await message.channel.fetch_message(int(arg))
-	await msg.delete()
-	await message.message.delete()
 
 #---------------------League----------------------------------------------------------------
 
@@ -416,8 +411,25 @@ async def add(message, user, amount):
     data.to_csv('credit.csv')
     await message.channel.send(f'{user.name} now has {data.loc[user.id].values[0]} credits')
 
-
-
+'''@bot.tree.command(name="image", description="generate image")
+async def self(interation: discord.Integration, message:str, amount:int = 1):
+    channel = interation.channel
+    if (amount > 3) | (amount < 1):
+        amount = 1
+    await interation.response.defer()
+    response = openai.Image.create(
+        prompt=message,
+        n=amount,
+        size="1024x1024",
+    )
+    image_url = response['data'][0]['url']
+    await interation.followup.send(image_url)
+    print(response)
+    if amount > 1:
+        await channel.send(response['data'][1]['url'])
+    if amount > 2:
+        await channel.send(response['data'][2]['url'])
+'''
 @bot.tree.command(name="search", description="search")
 async def self(interation: discord.Integration, message:str, output:int = 1):
     await interation.response.defer()
