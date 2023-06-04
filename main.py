@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import os
+import json
 import asyncio
 from dotenv import load_dotenv
 import discord
@@ -11,6 +12,7 @@ import BlackjackGame
 import pandas as pd
 import openai
 import requests
+from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
 
 load_dotenv()
 TOKEN = os.getenv('BOT_TOKEN')
@@ -147,7 +149,7 @@ async def on_message(message):
             await message.delete()
             return
         
-    curseWord = ['fk', 'fuck', 'tf', 'mom', 'nmsl', 'bitch', 'pussy' , 'shit']
+    curseWord = ['fk', 'fuck', 'wtf', 'mom', 'nmsl', 'bitch', 'pussy' , 'shit']
 
     if any(word in msg_content for word in curseWord):
         await message.delete()
@@ -205,9 +207,7 @@ async def self(interation: discord.Integration):
     embed.add_field(name='/pray', value='pray everyday!!!', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/lol', value='mentions league players', inline=False)
-    embed.add_field(name='/build (champion) (position)', value= 'get (champion) build from OP.GG', inline=False)
-    embed.add_field(name='/probuild (champion) (position)', value= 'get (champion) build from probuild', inline=False)
-    embed.add_field(name='/check (summoner name)', value= 'get sumoner\'s history from OP.GG', inline=False)
+    embed.add_field(name='/check', value= 'check summoner from OP.GG', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/anime (anime name)', value= 'get anime\'s release date', inline=False)
     embed.add_field(name='/hangman', value='start Hangman',inline=False)
@@ -229,7 +229,7 @@ async def self(interation: discord.Integration):
 	"""
 	This command mentions league players
 	"""
-	player = [465746027941724161,586052628807417878,748079858587795456,191052169569370113,808356393216114688,330695143273267201]
+	player = [465746027941724161,586052628807417878,748079858587795456,191052169569370113,808356393216114688,330695143273267201,300495172481843212]
 	if interation.user.id in player:
 		player.remove(interation.user.id)
 	player = ['<@'+str(x)+'>' for x in player]
@@ -239,51 +239,118 @@ async def self(interation: discord.Integration):
 
 #---------------------League----------------------------------------------------------------
 
-@bot.tree.command(name="check", description="get sumoner\'s history from OP.GG")
-async def self(interation: discord.Integration, name:str):
-	await interation.response.defer()
-	screenshot.screenshot_name(name)
-	file = discord.File('screenshot.png', filename='champion.png')
-	await interation.followup.send(file=file)
+# @bot.tree.command(name="build", description="get (champion) build from OP.GG")
+# @app_commands.describe(role = "roles")
+# @app_commands.choices(role = [
+# 	discord.app_commands.Choice(name='top', value=1),
+# 	discord.app_commands.Choice(name='jungle', value=2),
+# 	discord.app_commands.Choice(name='mid', value=3),
+# 	discord.app_commands.Choice(name='adc', value=4),
+# 	discord.app_commands.Choice(name='sup', value=5),
 
+# ])
+# async def self(interation: discord.Integration, champion:str, role: discord.app_commands.Choice[int]):
+# 	await interation.response.defer()
+# 	screenshot.screenshot(champion, role.name)
+# 	file = discord.File('screenshot.png', filename='champion.png')
+# 	await interation.followup.send(file=file)
 
-@bot.tree.command(name="build", description="get (champion) build from OP.GG")
-@app_commands.describe(role = "roles")
-@app_commands.choices(role = [
-	discord.app_commands.Choice(name='top', value=1),
-	discord.app_commands.Choice(name='jungle', value=2),
-	discord.app_commands.Choice(name='mid', value=3),
-	discord.app_commands.Choice(name='adc', value=4),
-	discord.app_commands.Choice(name='sup', value=5),
+# @bot.tree.command(name="probuild", description="get (champion) build from probuild")
+# @app_commands.describe(role = "roles")
+# @app_commands.choices(role = [
+#     discord.app_commands.Choice(name='top', value=1),
+#     discord.app_commands.Choice(name='jungle', value=2),
+#     discord.app_commands.Choice(name='mid', value=3),
+#     discord.app_commands.Choice(name='adc', value=4),
+#     discord.app_commands.Choice(name='supp', value=5),
 
-])
-async def self(interation: discord.Integration, champion:str, role: discord.app_commands.Choice[int]):
-	await interation.response.defer()
-	screenshot.screenshot(champion, role.name)
-	file = discord.File('screenshot.png', filename='champion.png')
-	await interation.followup.send(file=file)
+# ])
+# async def self(interation: discord.Integration, champion:str, role: discord.app_commands.Choice[int]):
+#     await interation.response.defer()
+#     ben = discord.utils.find(lambda r: r.name == 'tits licker',interation.guild.roles)
+#     if ben in interation.user.roles:
+#        lpl = True
+#     else:
+#         lpl = False
+#     screenshot.screenshot_pro(champion, role.name, lpl)
+#     file = discord.File('screenshot.png', filename='champion.png')
+#     await interation.followup.send(file=file)
 
-@bot.tree.command(name="probuild", description="get (champion) build from probuild")
-@app_commands.describe(role = "roles")
-@app_commands.choices(role = [
-    discord.app_commands.Choice(name='top', value=1),
-    discord.app_commands.Choice(name='jungle', value=2),
-    discord.app_commands.Choice(name='mid', value=3),
-    discord.app_commands.Choice(name='adc', value=4),
-    discord.app_commands.Choice(name='supp', value=5),
-
-])
-async def self(interation: discord.Integration, champion:str, role: discord.app_commands.Choice[int]):
+@bot.tree.command(name="check", description="check")
+async def self(interation: discord.Integration, name:str, games:int = 5):
+    if games > 10:
+        games = 5
+    api = os.getenv('ROIT_API')
     await interation.response.defer()
-    ben = discord.utils.find(lambda r: r.name == 'tits licker',interation.guild.roles)
-    if ben in interation.user.roles:
-       lpl = True
-    else:
-        lpl = False
-    screenshot.screenshot_pro(champion, role.name, lpl)
-    file = discord.File('screenshot.png', filename='champion.png')
-    await interation.followup.send(file=file)
+    r = requests.get(f'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}?api_key={api}')
+    r = (r.json())
+    id = r['puuid']
+    req = requests.get(f'https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{id}/ids?start=0&count=20&api_key={api}')
+    embed = discord.Embed(
+        title=f'{r["name"]}',
+        color=discord.Colour.dark_gold())
+    await interation.followup.send(name)
+    pages = []
+    for i in range(games):
+        game = requests.get(f'https://americas.api.riotgames.com/lol/match/v5/matches/{req.json()[i]}?api_key={api}').json()
+        if game['info']['participants'][game['metadata']['participants'].index(id)]['win']:
+            embed = discord.Embed(color=discord.Colour.blue())
+        else:
+            embed = discord.Embed(color=discord.Colour.red())
+        embed.add_field(name=game['info']['gameMode']+f'            {i+1}/{games}',value=str(datetime.fromtimestamp(round(game['info']['gameCreation']/1000))),inline=False)
+        for i in range(int(len(game['info']['participants'])/2)): #[game['metadata']['participants'].index(id)]
+            player = game['info']['participants'][i]
+            if player['puuid'] == id:
+                embed.add_field(name='',value=f'\t**{player["championName"]}   {player["kills"]}/{player["deaths"]}/{player["assists"]}**',inline=True)
+            else:
+                embed.add_field(name='',value=f'\t{player["championName"]}   {player["kills"]}/{player["deaths"]}/{player["assists"]}',inline=True)
+            player = game['info']['participants'][i+5]
+            if player['puuid'] == id:
+                embed.add_field(name='',value=f'\t**{player["championName"]}   {player["kills"]}/{player["deaths"]}/{player["assists"]}**',inline=True)
+            else:
+                embed.add_field(name='',value=f'\t{player["championName"]}   {player["kills"]}/{player["deaths"]}/{player["assists"]}',inline=True)
+            embed.add_field(name='\u200B', value='\u200B')
+            print(player["championName"])
+        pages.append(embed)
+        
 
+    buttons = [u"\u23EA", u"\u2B05", u"\u27A1", u"\u23E9"] # skip to start, left, right, skip to end
+    current = 0
+    msg = await interation.channel.send(embed=pages[current])
+    
+    for button in buttons:
+        await msg.add_reaction(button)
+        
+    while True:
+        try:
+            reaction, user = await bot.wait_for("reaction_add", check=lambda reaction, user: user == interation.user and reaction.emoji in buttons, timeout=60.0)
+
+        except asyncio.TimeoutError:
+            return print("test")
+
+        else:
+            previous_page = current
+            if reaction.emoji == u"\u23EA":
+                current = 0
+                
+            elif reaction.emoji == u"\u2B05":
+                if current > 0:
+                    current -= 1
+                    
+            elif reaction.emoji == u"\u27A1":
+                if current < len(pages)-1:
+                    current += 1
+
+            elif reaction.emoji == u"\u23E9":
+                current = len(pages)-1
+
+            for button in buttons:
+                await msg.remove_reaction(button, interation.user)
+
+            if current != previous_page:
+                await msg.edit(embed=pages[current])
+
+         
 
 @bot.tree.command(name="anime", description="get anime\'s release date")
 async def self(interation: discord.Integration, name:str):
@@ -430,6 +497,7 @@ async def self(interation: discord.Integration, message:str, amount:int = 1):
     if amount > 2:
         await channel.send(response['data'][2]['url'])
 '''
+
 @bot.tree.command(name="search", description="search")
 async def self(interation: discord.Integration, message:str, output:int = 1):
     await interation.response.defer()
