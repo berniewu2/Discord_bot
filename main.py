@@ -61,7 +61,7 @@ async def on_command_error(message, error):
         pass
 
 
-@bot.tree.error
+'''@bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
     if isinstance(error, app_commands.errors.MissingRole):
         await interaction.response.send_message("権限がありません")
@@ -69,7 +69,7 @@ async def on_app_command_error(interaction: discord.Interaction, error: discord.
         print (error)
         if not interaction.response.is_done:
             await interaction.response.send_message(f'Error {error}')
-            pass
+            pass'''
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -283,7 +283,12 @@ async def self(interation: discord.Integration, name:str, games:int = 5):
     api = os.getenv('ROIT_API')
     await interation.response.defer()
     r = requests.get(f'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}?api_key={api}')
+    print(r)
+    if r.status_code == 404:
+        await interation.followup.send(r.reason)
+        return
     r = (r.json())
+    print(r)
     id = r['puuid']
     req = requests.get(f'https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{id}/ids?start=0&count=20&api_key={api}')
     embed = discord.Embed(
