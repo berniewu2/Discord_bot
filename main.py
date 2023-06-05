@@ -285,7 +285,7 @@ async def self(interation: discord.Integration, name:str, games:int = 5):
     r = requests.get(f'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}?api_key={api}')
     print(r)
     if r.status_code == 404:
-        await interation.followup.send(r.reason)
+        await interation.followup.send(name + " " + r.reason)
         return
     r = (r.json())
     print(r)
