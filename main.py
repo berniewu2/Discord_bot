@@ -207,6 +207,7 @@ async def self(interation: discord.Integration):
     embed.add_field(name='/pray', value='pray everyday!!!', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/lol', value='mentions league players', inline=False)
+    embed.add_field(name='/tft', value='mentions tft players', inline=False)
     embed.add_field(name='/check', value= 'check summoner from OP.GG', inline=False)
     embed.add_field(name=' ', value=' -------------------------------------',inline=False)
     embed.add_field(name='/anime (anime name)', value= 'get anime\'s release date', inline=False)
@@ -240,7 +241,7 @@ async def self(interation: discord.Integration):
 	"""
 	This command mentions league players
 	"""
-	player = [465746027941724161,586052628807417878,808356393216114688,748079858587795456]
+	player = [465746027941724161,586052628807417878,808356393216114688]
 	if interation.user.id in player:
 		player.remove(interation.user.id)
 	player = ['<@'+str(x)+'>' for x in player]
