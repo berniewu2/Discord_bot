@@ -244,7 +244,7 @@ async def self(interation: discord.Integration):
 	if interation.user.id in player:
 		player.remove(interation.user.id)
 	player = ['<@'+str(x)+'>' for x in player]
-	await interation.response.send_message(" ".join(player)+ ' when will u come to daddy')
+	await interation.response.send_message(" ".join(player)+ ' 同行演我8')
 
 #---------------------League----------------------------------------------------------------
 
@@ -293,7 +293,7 @@ async def self(interation: discord.Integration, name:str, games:int = 5):
     await interation.response.defer()
     r = requests.get(f'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}?api_key={api}')
     print(r)
-    if r.status_code == 404:
+    if r.status_code == 404 or r.status_code == 403:
         await interation.followup.send(name + " " + r.reason)
         return
     r = (r.json())
