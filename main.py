@@ -235,7 +235,16 @@ async def self(interation: discord.Integration):
 	player = ['<@'+str(x)+'>' for x in player]
 	await interation.response.send_message('who wants to be carried '+" ".join(player))
 
-
+@bot.tree.command(name="tft", description="mentions tft players")
+async def self(interation: discord.Integration):
+	"""
+	This command mentions league players
+	"""
+	player = [465746027941724161,586052628807417878,808356393216114688,748079858587795456]
+	if interation.user.id in player:
+		player.remove(interation.user.id)
+	player = ['<@'+str(x)+'>' for x in player]
+	await interation.response.send_message(" ".join(player)+ ' when will u come to daddy')
 
 #---------------------League----------------------------------------------------------------
 
