@@ -234,7 +234,7 @@ async def self(interation: discord.Integration, message:str = 'who wants to be c
     global curseWord
     if any(word in message for word in curseWord):
         message = 'who wants to be carried '
-    player = [465746027941724161,586052628807417878,191052169569370113,808356393216114688,330695143273267201,300495172481843212]
+    player = [465746027941724161,586052628807417878,808356393216114688,330695143273267201]
     if interation.user.id in player:
         player.remove(interation.user.id)
     player = ['<@'+str(x)+'>' for x in player]
