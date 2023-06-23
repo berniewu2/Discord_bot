@@ -44,6 +44,7 @@ async def setup_hook():
 target_meassage_id = 1085077296555249684
 conversation_history = []
 last_message_time = datetime.now()
+curseWord = ['fk', 'fuck', 'wtf', 'mom', 'nmsl', 'bitch', 'pussy' , 'shit']
 
 @bot.event
 async def on_command_error(message, error):
@@ -149,7 +150,7 @@ async def on_message(message):
             await message.delete()
             return
         
-    curseWord = ['fk', 'fuck', 'wtf', 'mom', 'nmsl', 'bitch', 'pussy' , 'shit']
+    global curseWord
 
     if any(word in msg_content for word in curseWord):
         await message.delete()
@@ -166,25 +167,25 @@ async def on_message(message):
 
 @bot.tree.command(name="oppai", description="晉見おっぱい教主")
 async def self(interation: discord.Integration):
-	embed = discord.Embed(
-		color=discord.Colour.from_rgb(247, 166, 209))
-	embed.set_image(url='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aa5ac6d0-9bc7-40fd-ba34-b9c36388bbd0/d8echfc-f06f9444-90d8-48b5-8c22-9fc2dae773fc.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhNWFjNmQwLTliYzctNDBmZC1iYTM0LWI5YzM2Mzg4YmJkMFwvZDhlY2hmYy1mMDZmOTQ0NC05MGQ4LTQ4YjUtOGMyMi05ZmMyZGFlNzczZmMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Ug_91_nIwEJuv0VZhZkU8eJudFS5Daj3ajnyHKqXhmw')
-	await interation.response.send_message(embed=embed)
+    embed = discord.Embed(
+        color=discord.Colour.from_rgb(247, 166, 209))
+    embed.set_image(url='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aa5ac6d0-9bc7-40fd-ba34-b9c36388bbd0/d8echfc-f06f9444-90d8-48b5-8c22-9fc2dae773fc.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhNWFjNmQwLTliYzctNDBmZC1iYTM0LWI5YzM2Mzg4YmJkMFwvZDhlY2hmYy1mMDZmOTQ0NC05MGQ4LTQ4YjUtOGMyMi05ZmMyZGFlNzczZmMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Ug_91_nIwEJuv0VZhZkU8eJudFS5Daj3ajnyHKqXhmw')
+    await interation.response.send_message(embed=embed)
 
 
 @bot.tree.command(name="断る", description="だが断る！")
 async def self(interation: discord.Integration):
-	embed = discord.Embed(
+    embed = discord.Embed(
         color=discord.Colour.blue())
-	embed.set_image(url='https://pbs.twimg.com/media/CuLSuuDVMAAWB6p.jpg')
-	await interation.response.send_message(embed=embed)
+    embed.set_image(url='https://pbs.twimg.com/media/CuLSuuDVMAAWB6p.jpg')
+    await interation.response.send_message(embed=embed)
 
 @bot.tree.command(name="pray", description="pray everyday!!!")
 async def self(interation: discord.Integration):
-	embed = discord.Embed(
-		color=discord.Colour.teal())
-	embed.set_image(url='https://media.tenor.com/YdDEOK6wfvUAAAAC/mushoku-tensei-roxy-migurdia.gif')
-	await interation.response.send_message(embed=embed)
+    embed = discord.Embed(
+        color=discord.Colour.teal())
+    embed.set_image(url='https://media.tenor.com/YdDEOK6wfvUAAAAC/mushoku-tensei-roxy-migurdia.gif')
+    await interation.response.send_message(embed=embed)
 
 
 @bot.tree.command(name="help", description="show all commands")
@@ -197,7 +198,7 @@ async def self(interation: discord.Integration):
     embed.set_image(url='https://w0.peakpx.com/wallpaper/190/23/HD-wallpaper-anime-virtual-youtuber-hololive-nakiri-ayame.jpg')
     embed.set_thumbnail(
         url=
-    	'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
+        'https://static.wikia.nocookie.net/virtualyoutuber/images/0/09/Nakiri_Ayame_Portrait.png/revision/latest?cb=20190215184953'
     )
     embed.add_field(name='/info',value='infomation about this server',inline=False)
     embed.add_field(name='/search', value='search', inline=False)
@@ -222,30 +223,36 @@ async def self(interation: discord.Integration):
 
 @bot.tree.command(name="info", description="show info")
 async def self(interation: discord.Integration):
-	await interation.response.send_message(f'{interation.user.name}\n這是一個被<@465746027941724161>拋棄的伺服器')
+    await interation.response.send_message(f'{interation.user.name}\n這是一個被<@465746027941724161>拋棄的伺服器')
 #------------------------------------------------------------------------------------------------------------
 
 @bot.tree.command(name="lol", description="mentions league players")
 async def self(interation: discord.Integration, message:str = 'who wants to be carried '):
-	"""
-	This command mentions league players
-	"""
-	player = [465746027941724161,586052628807417878,191052169569370113,808356393216114688,330695143273267201,300495172481843212]
-	if interation.user.id in player:
-		player.remove(interation.user.id)
-	player = ['<@'+str(x)+'>' for x in player]
-	await interation.response.send_message(message+" ".join(player))
+    """
+    This command mentions league players
+    """
+    global curseWord
+    if any(word in message for word in curseWord):
+        message = 'who wants to be carried '
+    player = [465746027941724161,586052628807417878,191052169569370113,808356393216114688,330695143273267201,300495172481843212]
+    if interation.user.id in player:
+        player.remove(interation.user.id)
+    player = ['<@'+str(x)+'>' for x in player]
+    await interation.response.send_message(message+" ".join(player))
 
 @bot.tree.command(name="tft", description="mentions tft players")
 async def self(interation: discord.Integration, message:str = ' 同行演我8'):
-	"""
-	This command mentions league players
-	"""
-	player = [465746027941724161,586052628807417878,808356393216114688]
-	if interation.user.id in player:
-		player.remove(interation.user.id)
-	player = ['<@'+str(x)+'>' for x in player]
-	await interation.response.send_message(" ".join(player)+ message)
+    """
+    This command mentions league players
+    """
+    global curseWord
+    if any(word in message for word in curseWord):
+        message = ' 同行演我8'
+    player = [465746027941724161,586052628807417878,808356393216114688]
+    if interation.user.id in player:
+        player.remove(interation.user.id)
+    player = ['<@'+str(x)+'>' for x in player]
+    await interation.response.send_message(" ".join(player)+ message)
 
 #---------------------League----------------------------------------------------------------
 
@@ -419,60 +426,60 @@ async def self(interation: discord.Integration, game:discord.app_commands.Choice
 
 @bot.tree.command(name="blackjack", description="play blackjack")
 async def self(interation: discord.Integration):
-	data = pd.read_csv('credit.csv')
-	data = data.set_index('ID')
-	target = 0
-	if (interation.channel.id in BlackjackGame.games):
-		await interation.response.send_message("There's already a game in progress in this channel!")
-		pass
-	await interation.response.send_message('Place your bets if u want to play BlackJack')
-	async for msg in interation.channel.history(limit=1):
-		target = msg.id
-		await msg.add_reaction('5️⃣')
-		await msg.add_reaction('🔟')
-	await asyncio.sleep(5)
-	msg = await interation.channel.fetch_message(target)
-	await msg.remove_reaction('5️⃣', bot.user)
-	await msg.remove_reaction('🔟', bot.user)
-	five = [user async for user in msg.reactions[0].users()]
-	ten = [user async for user in msg.reactions[1].users()]
-	for player in five:
-		if data.loc[player.id].values[0] < 5:
-			await interation.channel.send(f'{player.name} don\'t have enongh credits!')
-			five.remove(player)
-	for player in ten:
-		if data.loc[player.id].values[0] < 10:
-			await interation.channel.send(f'{player.name} don\'t have enongh credits!')
-			ten.remove(player)
-	users = five + ten
-	if len(users) == 0:
-		await interation.channel.send('おまえらはみんな小心者だ')
-		end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
-		await interation.channel.send(file = end)
-		return
-	BlackjackGame.games[interation.channel.id] = BlackjackGame.Blackjack(interation.channel,bot.user, five, ten)
-	await BlackjackGame.games[interation.channel.id].start_game()
-	result, no_one_win = await BlackjackGame.games[interation.channel.id].end()
-	if not no_one_win:
-		end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
-		await interation.channel.send(file = end)
-	else:
-		end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
-		await interation.channel.send(file = end)
-	await interation.channel.send(result)
-	del BlackjackGame.games[interation.channel.id]
+    data = pd.read_csv('credit.csv')
+    data = data.set_index('ID')
+    target = 0
+    if (interation.channel.id in BlackjackGame.games):
+        await interation.response.send_message("There's already a game in progress in this channel!")
+        pass
+    await interation.response.send_message('Place your bets if u want to play BlackJack')
+    async for msg in interation.channel.history(limit=1):
+        target = msg.id
+        await msg.add_reaction('5️⃣')
+        await msg.add_reaction('🔟')
+    await asyncio.sleep(5)
+    msg = await interation.channel.fetch_message(target)
+    await msg.remove_reaction('5️⃣', bot.user)
+    await msg.remove_reaction('🔟', bot.user)
+    five = [user async for user in msg.reactions[0].users()]
+    ten = [user async for user in msg.reactions[1].users()]
+    for player in five:
+        if data.loc[player.id].values[0] < 5:
+            await interation.channel.send(f'{player.name} don\'t have enongh credits!')
+            five.remove(player)
+    for player in ten:
+        if data.loc[player.id].values[0] < 10:
+            await interation.channel.send(f'{player.name} don\'t have enongh credits!')
+            ten.remove(player)
+    users = five + ten
+    if len(users) == 0:
+        await interation.channel.send('おまえらはみんな小心者だ')
+        end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
+        await interation.channel.send(file = end)
+        return
+    BlackjackGame.games[interation.channel.id] = BlackjackGame.Blackjack(interation.channel,bot.user, five, ten)
+    await BlackjackGame.games[interation.channel.id].start_game()
+    result, no_one_win = await BlackjackGame.games[interation.channel.id].end()
+    if not no_one_win:
+        end = discord.File('ayame_image/ayame_ya.jpg', filename='ya.jpg')
+        await interation.channel.send(file = end)
+    else:
+        end = discord.File('ayame_image/ayame_victory.jpg', filename='loser.jpg')
+        await interation.channel.send(file = end)
+    await interation.channel.send(result)
+    del BlackjackGame.games[interation.channel.id]
 
 
 @bot.tree.command(name="credit", description="see everyone\'s credits")
 async def self(interation: discord.Integration):
-	data = pd.read_csv('credit.csv')
-	data = data.set_index('ID')
-	data = data.sort_values(by = ['credit'], ascending=False)
-	result = "```\n"
-	for i in data.index:
-		result += "{}: {}\n".format(bot.get_user(i).name,data.loc[i].values[0])
-	result += "```"
-	await interation.response.send_message(result)
+    data = pd.read_csv('credit.csv')
+    data = data.set_index('ID')
+    data = data.sort_values(by = ['credit'], ascending=False)
+    result = "```\n"
+    for i in data.index:
+        result += "{}: {}\n".format(bot.get_user(i).name,data.loc[i].values[0])
+    result += "```"
+    await interation.response.send_message(result)
 
 @bot.tree.command(name="podcast", description="podcast")
 @app_commands.checks.has_role('我在搞')
