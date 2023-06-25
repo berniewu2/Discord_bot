@@ -156,6 +156,8 @@ async def on_message(message):
         await message.delete()
         writer = str(message.author.global_name)
         view = curse_buttom(message=message)
+        if writer == "None":
+            writer == str(message.author.name)
         await message.channel.send(f"**{writer}**,\ndo u actually want to say ||{message.content}||?")
         await message.channel.send(view=view)
 
@@ -372,15 +374,70 @@ async def self(interation: discord.Integration, name:str, games:int = 5):
             if current != previous_page:
                 await msg.edit(embed=pages[current])
 
-         
-
-@bot.tree.command(name="anime", description="get anime\'s release date")
+@bot.tree.command(name="anime", description="get anime\'s info")
 async def self(interation: discord.Integration, name:str):
+    channel = interation.channel
     await interation.response.defer()
-    screenshot.screenshot_anime(name.split())
-    file = discord.File('screenshot.png', filename=f'{name}.png')
-    await interation.followup.send(file=file)
+    r = requests.get(f'https://api.jikan.moe/v4/anime?q={name}&sfw')
+    data = r.json()['data']
+    data = list(filter(lambda x: x['status']=='Not yet aired' or x['status']== 'Currently Airing',data))
 
+    await interation.followup.send(name)
+    pages = []
+    print(len(data))
+    for anime in data:
+        embed = discord.Embed(
+        title=f'{name}',
+        color=discord.Colour.dark_gold())
+        embed.add_field(name="",value=f'{data.index(anime)+1}/{len(data)}',inline=False)
+
+        embed.set_image(url=anime['images']['jpg']['large_image_url'])
+        embed.add_field(name='title',value=anime['title_japanese'],inline=False)
+        embed.add_field(name='status',value=anime['status'],inline=False)
+        embed.add_field(name='score',value=anime['score'],inline=False)
+        embed.add_field(name='episodes',value=anime['episodes'],inline=False)
+        embed.add_field(name='date',value=anime['aired']['string'],inline=False)
+
+        pages.append(embed)
+    print(len(pages))
+    if len(pages) == 0:
+        await channel.send("Not found")
+        return
+    buttons = [u"\u23EA", u"\u2B05", u"\u27A1", u"\u23E9"] # skip to start, left, right, skip to end
+    current = 0
+    msg = await interation.channel.send(embed=pages[current])
+    
+    for button in buttons:
+        await msg.add_reaction(button)
+        
+    while True:
+        try:
+            reaction, user = await bot.wait_for("reaction_add", check=lambda reaction, user: user == interation.user and reaction.emoji in buttons, timeout=60.0)
+
+        except asyncio.TimeoutError:
+            return print("TimeoutError")
+
+        else:
+            previous_page = current
+            if reaction.emoji == u"\u23EA":
+                current = 0
+                
+            elif reaction.emoji == u"\u2B05":
+                if current > 0:
+                    current -= 1
+                    
+            elif reaction.emoji == u"\u27A1":
+                if current < len(pages)-1:
+                    current += 1
+
+            elif reaction.emoji == u"\u23E9":
+                current = len(pages)-1
+
+            for button in buttons:
+                await msg.remove_reaction(button, interation.user)
+
+            if current != previous_page:
+                await msg.edit(embed=pages[current])
 #----------------------HangMan-----------------------------------------------------------------------
 
 @bot.tree.command(name="hangman", description="play hangman")
