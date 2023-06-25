@@ -389,10 +389,15 @@ async def self(interation: discord.Integration, name:str):
         embed = discord.Embed(
         title=f'{name}',
         color=discord.Colour.dark_gold())
+        print(anime)
         embed.add_field(name="",value=f'{data.index(anime)+1}/{len(data)}',inline=False)
 
         embed.set_image(url=anime['images']['jpg']['large_image_url'])
-        embed.add_field(name='title',value=anime['title_japanese'],inline=False)
+        title = anime['title_japanese']
+        if anime['title_english'] != None:
+            title += " / "
+            title += anime['title_english']
+        embed.add_field(name='title',value=title,inline=False)
         embed.add_field(name='status',value=anime['status'],inline=False)
         embed.add_field(name='score',value=anime['score'],inline=False)
         embed.add_field(name='episodes',value=anime['episodes'],inline=False)
