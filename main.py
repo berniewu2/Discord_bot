@@ -154,7 +154,7 @@ async def on_message(message):
 
     if any(word in msg_content for word in curseWord):
         await message.delete()
-        writer = str(message.author).split("#")[0]
+        writer = str(message.author.global_name)
         view = curse_buttom(message=message)
         await message.channel.send(f"**{writer}**,\ndo u actually want to say ||{message.content}||?")
         await message.channel.send(view=view)
@@ -223,7 +223,7 @@ async def self(interation: discord.Integration):
 
 @bot.tree.command(name="info", description="show info")
 async def self(interation: discord.Integration):
-    await interation.response.send_message(f'{interation.user.name}\n這是一個被<@465746027941724161>拋棄的伺服器')
+    await interation.response.send_message(f'{interation.user.global_name}\n這是一個被<@465746027941724161>拋棄的伺服器')
 #------------------------------------------------------------------------------------------------------------
 
 @bot.tree.command(name="lol", description="mentions league players")
