@@ -769,7 +769,7 @@ def animeListEmbedCard(anime_series):
 
     fields.sort(key=lambda x: x[2])
     for anime_name, episode_field, _ in fields:
-        embed.add_field(name=anime_name, value=episode_field, inline=True)
+        embed.add_field(name=anime_name, value=episode_field, inline=True) #format
     return embed
 
 
@@ -805,7 +805,7 @@ async def self(interaction: discord.Integration, name: str):
     channel = interaction.channel
     print_bot(f"Adding New Anime")
     animes = jikan_api.searchAnime(anime_name=name)
-    anime_titles = [anime["title"] for anime in animes]
+    anime_titles = [anime['title_english'] or anime["title"] for anime in animes]
     print_bot(f"Querying for '{name}'")
     print_bot(f"Choices are: '{', '.join(anime_titles)}'")
     options = [discord.SelectOption(label=i, value=i-1)
