@@ -57,7 +57,7 @@ MAL_DOMAIN = "https://myanimelist.net/anime/"
 JSONFILENAME = "series.json"
 CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
 MAL_CLIENT_ID = os.getenv("MAL_CLIENT_ID")
-DISCORD_TAG = "<@576318740283654154>"
+DISCORD_TAG = "<@465746027941724161>"
 
 mal_api = MyAnimeListAPI(MAL_CLIENT_ID)
 jikan_api = JikanAPI()
@@ -799,8 +799,6 @@ def animeSelectionRemoveEmbed(anime_titles):
 @bot.tree.command(name="add_anime",description="Adds an anime to the list")
 async def self(interaction: discord.Integration, name: str):
     channel = interaction.channel
-    print(DISCORD_TAG)
-    await channel.send(DISCORD_TAG)
     print_bot(f"Adding New Anime")
     animes = jikan_api.searchAnime(anime_name=name)
     anime_titles = [anime["title"] for anime in animes]
