@@ -140,32 +140,32 @@ async def on_message(message):
     except ValueError:
         msg_content = message.content.lower()
 
-    if bot.user.mentioned_in(message):
-        global last_message_time
-        current_time = datetime.now()
-        if current_time - last_message_time > timedelta(minutes=5):
-            conversation_history.clear()
-        print(message.content)
-        front = message.content.index('<')
-        end = message.content.index('>')
-        msg_content = message.content[:front] + message.content[end+1:]
-        conversation_history.append(f"{message.author.name}: {msg_content}")
-        print(conversation_history)
-        last_message_time = current_time
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            max_tokens=256,
-            messages = [
-                {"role": "system", "content": f"You are 百鬼あやめ, admin of this discord server. Now is {datetime.now().isoformat(' ', 'seconds')}"},
-                {"role": "user", "content": f"{conversation_history}"}]
-        )
-        conversation_history.append(f"{response['choices'][0]['message']['content']}")
-        print(conversation_history)
-        answer = response['choices'][0]['message']['content']
-        if len(answer) > 1000:
-            answer = answer[:999] 
-        await message.channel.send(answer)
-        print(response)
+    # if bot.user.mentioned_in(message):
+    #     global last_message_time
+    #     current_time = datetime.now()
+    #     if current_time - last_message_time > timedelta(minutes=5):
+    #         conversation_history.clear()
+    #     print(message.content)
+    #     front = message.content.index('<')
+    #     end = message.content.index('>')
+    #     msg_content = message.content[:front] + message.content[end+1:]
+    #     conversation_history.append(f"{message.author.name}: {msg_content}")
+    #     print(conversation_history)
+    #     last_message_time = current_time
+    #     response = openai.ChatCompletion.create(
+    #         model="gpt-3.5-turbo",
+    #         max_tokens=256,
+    #         messages = [
+    #             {"role": "system", "content": f"You are 百鬼あやめ, admin of this discord server. Now is {datetime.now().isoformat(' ', 'seconds')}"},
+    #             {"role": "user", "content": f"{conversation_history}"}]
+    #     )
+    #     conversation_history.append(f"{response['choices'][0]['message']['content']}")
+    #     print(conversation_history)
+    #     answer = response['choices'][0]['message']['content']
+    #     if len(answer) > 1000:
+    #         answer = answer[:999] 
+    #     await message.channel.send(answer)
+    #     print(response)
 
     if message.channel.name == 'doraemon':
         role = discord.utils.find(lambda r: r.name == '我在搞',
@@ -174,16 +174,16 @@ async def on_message(message):
             await message.delete()
             return
         
-    global curseWord
+    # global curseWord
 
-    if any(word in msg_content for word in curseWord):
-        await message.delete()
-        writer = str(message.author.global_name)
-        view = curse_buttom(message=message)
-        if writer == "None":
-            writer == str(message.author.name)
-        await message.channel.send(f"**{writer}**,\ndo u actually want to say ||{message.content}||?")
-        await message.channel.send(view=view)
+    # if any(word in msg_content for word in curseWord):
+    #     await message.delete()
+    #     writer = str(message.author.global_name)
+    #     view = curse_buttom(message=message)
+    #     if writer == "None":
+    #         writer == str(message.author.name)
+    #     await message.channel.send(f"**{writer}**,\ndo u actually want to say ||{message.content}||?")
+    #     await message.channel.send(view=view)
 
     role = discord.utils.find(lambda r: r.id == 1085070784843751454,message.guild.roles)
     if role in message.author.roles:
