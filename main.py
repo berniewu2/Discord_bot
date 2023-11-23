@@ -52,7 +52,7 @@ async def setup_hook():
 with open("useragents.txt", 'r') as f:
     HEADERS = [{'User-Agent': header} for header in f.read().splitlines()]
 
-DOMAIN = "https://gogoplay1.com/"
+DOMAIN = "https://gogoanimehd.io/"
 MAL_DOMAIN = "https://myanimelist.net/anime/"
 JSONFILENAME = "series.json"
 CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
@@ -899,7 +899,7 @@ async def scrapeAiringAnime():
         try:
             res = r.get(DOMAIN, headers=choice(HEADERS))
             soup = BeautifulSoup(res.text, "html.parser")
-            episodes = soup.findAll("div", {"class": "name"})
+            episodes = soup.findAll("p", {"class": "name"})
         except Exception as e:
             if error == e:
                 print("Same error, shutting down")
@@ -913,7 +913,8 @@ async def scrapeAiringAnime():
         for i, episode in enumerate(episodes):
             print(jsonOP.data)
             registeredAnime = jsonOP.loadJSON()["series"]
-            episode_text = episode.text.strip().lower()
+            episode_text = episode.find("a").get("href")
+            print(episode_text)
             for index, [anime, episode_number_db, anime_id] in enumerate(registeredAnime):
                 if anime.lower() in episode_text:
                     episode_number = episode_text.split("episode ")[-1]
