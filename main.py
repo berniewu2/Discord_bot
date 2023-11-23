@@ -911,19 +911,20 @@ async def scrapeAiringAnime():
             # os.system("kill 1")
 
         for i, episode in enumerate(episodes):
-            print(jsonOP.data)
+            # print(jsonOP.data)
+            print(episode)
             registeredAnime = jsonOP.loadJSON()["series"]
             episode_text = episode.find("a").get("href")
-            print(episode_text)
+            episode_name = episode.find("a").get("title")
             for index, [anime, episode_number_db, anime_id] in enumerate(registeredAnime):
-                if anime.lower() in episode_text:
-                    episode_number = episode_text.split("episode ")[-1]
+                if anime.lower() in episode_name.lower():
+                    episode_number = episode_text.split("episode-")[-1]
                     if str(episode_number_db) != str(episode_number):
                         registeredAnime[index][1] = int(episode_number) if isInteger(
                             episode_number) else float(episode_number)
 
-                        link = episodes[i].parent.get("href")
-                        video_link = scrapeVideo(DOMAIN + link)
+                        link = episode.find("a").get("href")
+                        video_link = scrapeVideo(DOMAIN + episode_text)
 
                         airing = isAnimeAiring(anime_id)
 
