@@ -52,7 +52,7 @@ async def setup_hook():
 with open("useragents.txt", 'r') as f:
     HEADERS = [{'User-Agent': header} for header in f.read().splitlines()]
 
-DOMAIN = "https://gogoanimehd.io/"
+DOMAIN = "https://gogoanime3.net/"
 MAL_DOMAIN = "https://myanimelist.net/anime/"
 JSONFILENAME = "series.json"
 CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
@@ -923,7 +923,6 @@ async def scrapeAiringAnime():
                         registeredAnime[index][1] = int(episode_number) if isInteger(
                             episode_number) else float(episode_number)
 
-                        link = episode.find("a").get("href")
                         video_link = scrapeVideo(DOMAIN + episode_text)
 
                         airing = isAnimeAiring(anime_id)
