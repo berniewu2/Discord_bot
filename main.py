@@ -52,7 +52,7 @@ async def setup_hook():
 with open("useragents.txt", 'r') as f:
     HEADERS = [{'User-Agent': header} for header in f.read().splitlines()]
 
-DOMAIN = "https://gogoanime3.net/"
+DOMAIN = "https://gogoanime3.net"
 MAL_DOMAIN = "https://myanimelist.net/anime/"
 JSONFILENAME = "series.json"
 CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
@@ -912,18 +912,20 @@ async def scrapeAiringAnime():
 
         for i, episode in enumerate(episodes):
             # print(jsonOP.data)
-            print(episode)
             registeredAnime = jsonOP.loadJSON()["series"]
             episode_text = episode.find("a").get("href")
             episode_name = episode.find("a").get("title")
             for index, [anime, episode_number_db, anime_id] in enumerate(registeredAnime):
                 if anime.lower() in episode_name.lower():
                     episode_number = episode_text.split("episode-")[-1]
-                    if str(episode_number_db) != str(episode_number):
+                    if int(episode_number_db) < int(episode_number):
                         registeredAnime[index][1] = int(episode_number) if isInteger(
                             episode_number) else float(episode_number)
 
                         video_link = scrapeVideo(DOMAIN + episode_text)
+                        print(DOMAIN)
+                        print(episode_text)
+                        print(video_link)
 
                         airing = isAnimeAiring(anime_id)
 
@@ -968,7 +970,7 @@ def scrapeVideo(link):
     soup = BeautifulSoup(res.text, "html.parser")
     # get the attribute called "src" from the iframe tag
     video_link = soup.find("iframe").get("src")
-    return "https://" + video_link.lstrip("/")
+    return video_link.lstrip("/")
 
 
 async def notify(anime_name, anime_id, episode_number, video_link, airing=True):
