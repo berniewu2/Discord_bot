@@ -11,8 +11,10 @@ class admin_commands(commands.Cog):
 
     @commands.command(name='clear', aliases=["purge"])
     @commands.has_role('我在搞')
-    async def clear(self, message, limit:int =1):
-        await message.channel.purge(limit = limit + 1)
+    async def clear(self, message, channel_id, limit:int =1):
+        channel = discord.utils.find(lambda r: r.id == int(channel_id),
+                            message.guild.text_channels)
+        await channel.purge(limit = limit + 1)
 
 
     @commands.command()
