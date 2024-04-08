@@ -1,4 +1,5 @@
 # Discord_bot
+A bot used to manage discord server
 ## Python version
 - Python 3.10.6
 
