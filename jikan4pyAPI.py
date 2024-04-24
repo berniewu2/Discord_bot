@@ -38,6 +38,11 @@ class JikanAPI:
         req = r.get(f'{self.url}/anime/{anime_id}')
         if req.status_code == 429:
             raise Exception(req.json()['message'])
+        try:
+            test = req.json()['data']
+        except Exception as e:
+            print(e)
+            pass
         return req.json()['data']
 
     def getAnimeByTitle(self, anime_name):
